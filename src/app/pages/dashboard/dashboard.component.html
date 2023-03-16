@@ -1,0 +1,22 @@
+<div class="grid-container">
+  <h2>Dashboard</h2>
+  <mat-grid-list cols="{{ ( cardLayout | async )?.columns }}" rowHeight="200px">
+    <!--Mini Cards-->
+    <mat-grid-tile *ngFor="let i of [1, 2, 3, 4]" [colspan]="( cardLayout | async )?.miniCard?.cols"
+      [rowspan]="( cardLayout | async )?.miniCard?.rows">
+      <app-card title="Card {{i}}"><div>Mini Card Content Here</div></app-card>
+    </mat-grid-tile>
+
+     <!--Charts-->
+    <mat-grid-tile [colspan]="( cardLayout | async )?.chart?.cols" [rowspan]="( cardLayout | async )?.chart?.rows">
+      <app-card title="Monthly Revenue">
+        <div echarts [options]="chartOption" style="height: 450px; width: 100%;"></div>
+      </app-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="( cardLayout | async )?.chart?.cols" [rowspan]="( cardLayout | async )?.chart?.rows">
+      <app-card title="Product Sales">
+        <div echarts [options]="option" style="height: 450px; width: 100%"></div>
+      </app-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+ </div>
