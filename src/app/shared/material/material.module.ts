@@ -11,6 +11,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @NgModule({
   exports: [
@@ -24,6 +26,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDividerModule,
     MatGridListModule,
     MatCardModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
     LayoutModule
   ]
 })
