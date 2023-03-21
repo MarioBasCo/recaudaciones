@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @NgModule({
@@ -27,6 +28,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
     MatGridListModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule,
     MatProgressSpinnerModule,
     LayoutModule
   ]
