@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  isExpanded = false;
-  showSubmenu: boolean = true;
-  isShowing = false;
-  showSubSubMenu: boolean = false;
 
   menuList: any[] = [{
     "text": "Dashboard",
@@ -69,23 +66,4 @@ export class MenuComponent {
     "routerLink": "/reports"
   }
   ];
-
-  constructor() { }
-
-  mouseenter() {
-    //console.log('enter')
-    if (!this.isExpanded) {
-      this.isShowing = true;
-      this.isExpanded = true;
-      this.showSubmenu = true;
-    }
-  }
-
-  mouseleave() {
-    if (!this.isExpanded) {
-      this.isShowing = false;
-      this.isExpanded = false;
-      this.showSubmenu = false;
-    }
-  }
 }

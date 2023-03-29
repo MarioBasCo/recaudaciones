@@ -22,6 +22,6 @@ p {
     margin: 0;
 }
 
-.mat-tab-group.mat-tab-fill-height .mat-tab-body-wrapper {
-    flex: 1 1 100%;
+.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right: 0px !important;
 }

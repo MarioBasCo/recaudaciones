@@ -13,6 +13,14 @@ const routes: Routes = [
     redirectTo: 'sign-in'
   },
   {
+    path: 'sign-in', 
+    component: SignInComponent
+  },
+  /* {
+    path: 'sign-up', 
+    component: SignUpComponent
+  },
+  {
     path: 'confirmation-required',
     component: ConfirmationRequiredComponent
   },
@@ -23,15 +31,7 @@ const routes: Routes = [
   {
     path: 'reset-password', 
     component: ResetPasswordComponent
-  },
-  {
-    path: 'sign-in', 
-    component: SignInComponent
-  },
-  {
-    path: 'sign-up', 
-    component: SignUpComponent
-  }
+  }, */
 ];
 
 @NgModule({

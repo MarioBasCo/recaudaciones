@@ -7,10 +7,9 @@ import { ContractsComponent } from './contracts/contracts.component';
 import { ParamsComponent } from './params/params.component';
 import { RolesComponent } from './roles/roles.component';
 import { UsersComponent } from './users/users.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialModule } from 'src/app/shared/material/material.module';
+import { ModalAddRoleComponent } from './roles/modal-add-role/modal-add-role.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,14 +17,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ContractsComponent,
     ParamsComponent,
     RolesComponent,
-    UsersComponent
+    UsersComponent,
+    ModalAddRoleComponent
   ],
   imports: [
     CommonModule,
-    FlexLayoutModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
+    MaterialModule,
+    ReactiveFormsModule,
     MaintainersRoutingModule
   ]
 })
