@@ -1,46 +1,10 @@
-<div>
-    <div
-        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:py-6 sm:px-6 border-b bg-card dark:bg-transparent">
-        <div class="flex-1 min-w-0">
-            <!-- Title -->
-            <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Usuarios
-                </h2>
-            </div>
-        </div>
-        <!-- Actions -->
-        <div class="flex flex-shrink-0 justify-end items-center mt-4 sm:mt-0 sm:ml-4">
-            <button class="mr-2" mat-icon-button color="primary">
-                <mat-icon>refresh</mat-icon>
-            </button>
-            <button mat-flat-button [color]="'primary'" (click)="openDialogUser()">
-                <mat-icon>add</mat-icon>
-                <span class="ml-2 mr-1">Nuevo</span>
-            </button>
-        </div>
-    </div>
+<subheader [title]="'Usuarios'" (newElement)="openDialogUser(null)" (update)="refreshData($event)"></subheader>
 
-    <div class="mt-6">
-        <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
-            <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-                <mat-cell *matCellDef="let row;">{{row.id}}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                <mat-cell *matCellDef="let row;">
-                    <button mat-icon-button>
-                        <mat-icon color="primary">edit</mat-icon>
-                    </button>
-                    <button mat-icon-button>
-                        <mat-icon color="warn">delete</mat-icon>
-                    </button>
-                </mat-cell>
-            </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns">
-            </mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-        </mat-table>
+<div class="mt-6">
+    <search (filtrar)="applyFilter($event)"></search>
+
+    <div class="mat-elevation-z8">
+        <app-clients-table [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
+            (editElement)="openDialogUser($event)" (deleteElement)="deleteUser($event)"></app-clients-table>
     </div>
 </div>

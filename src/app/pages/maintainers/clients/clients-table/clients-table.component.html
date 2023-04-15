@@ -1,0 +1,23 @@
+<div class="table-responsive">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>{{column.header}}</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{column.cell(row)}}</mat-cell>
+        </ng-container>
+        <ng-container [matColumnDef]="'actions'">
+            <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
+            <mat-cell *matCellDef="let row;">
+                <button mat-icon-button (click)="openEditForm(row)">
+                    <mat-icon aria-hidden="false" aria-label="Editar" color="primary">edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteClient(row)">
+                    <mat-icon aria-hidden="false" aria-label="Eliminar" color="warn">delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>

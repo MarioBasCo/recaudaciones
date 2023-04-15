@@ -10,6 +10,13 @@ import { UsersComponent } from './users/users.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { ModalAddRoleComponent } from './roles/modal-add-role/modal-add-role.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserFormComponent } from './users/user-form/user-form.component';
+import { ClientsTableComponent } from './clients/clients-table/clients-table.component';
+import { ClientFormComponent } from './clients/client-form/client-form.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { SubheaderComponent } from 'src/app/components/subheader/subheader.component';
+import { SearchComponent } from 'src/app/components/search/search.component';
+import { UsersTableComponent } from './users/users-table/users-table.component';
 
 @NgModule({
   declarations: [
@@ -18,13 +25,24 @@ import { ReactiveFormsModule } from '@angular/forms';
     ParamsComponent,
     RolesComponent,
     UsersComponent,
-    ModalAddRoleComponent
+    ModalAddRoleComponent,
+    UserFormComponent,
+    ClientsTableComponent,
+    ClientFormComponent,
+    UsersTableComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
+    SubheaderComponent,
+    SearchComponent,
     ReactiveFormsModule,
-    MaintainersRoutingModule
-  ]
+    MaintainersRoutingModule,
+    NgxMaskDirective,
+    NgxMaskPipe
+  ],
+  providers: [
+    provideNgxMask()
+  ],
 })
 export class MaintainersModule { }

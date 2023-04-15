@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-modal-add-role',
@@ -12,7 +12,10 @@ export class ModalAddRoleComponent {
   public title: string;
   public isLoading: boolean = false;
 
-    constructor( @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder){
+    constructor( 
+      @Inject(MAT_DIALOG_DATA) public data: any, 
+      private fb: FormBuilder,
+      public dialogRef: MatDialogRef<ModalAddRoleComponent>){
       this.roleForm = this.createForm(data);
       this.title = this.data ? 'Editar' : 'Nuevo';
     }
@@ -28,5 +31,9 @@ export class ModalAddRoleComponent {
   save() {
     this.isLoading = true;
     this.roleForm.disable();
+    setTimeout(() => {
+      this.isLoading = false;
+      this.dialogRef.close();
+    }, 500);
   }
 }

@@ -1,0 +1,59 @@
+<div>
+    <h2 mat-dialog-title>Add</h2>
+    <div mat-dialog-content [formGroup]="userForm">
+        
+        <mat-form-field appearance="outline" class="w-full mt-2">
+            <mat-label>Identificación</mat-label>
+            <input matInput type="text" formControlName="identificacion">
+            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nombres</mat-label>
+            <input matInput type="text" formControlName="primerApellido">
+            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Apellidos</mat-label>
+            <input matInput type="text" formControlName="segundoApellido">
+            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Celular</mat-label>
+            <input matInput type="text" formControlName="usuario">
+            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" appearance="outline" class="w-full">
+            <mat-label>Correo</mat-label>
+            <input matInput type="text" formControlName="email">
+            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Usuario</mat-label>
+            <input matInput type="text" formControlName="usuario">
+            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" formControlName="password">
+            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="justify-end">
+        <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading"
+            color="warn">Cancelar</button>
+        <button mat-raised-button class="min-w-26" [disabled]="isLoading || userForm.invalid" color="primary" (click)="save()">
+            <ng-container *ngIf="isLoading; else elseTemplate">
+                <mat-spinner [diameter]="25"></mat-spinner>
+            </ng-container>
+            <ng-template #elseTemplate>
+                Guardar
+            </ng-template>
+        </button>
+    </div>
+</div>

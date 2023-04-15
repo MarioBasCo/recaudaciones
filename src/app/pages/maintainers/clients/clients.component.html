@@ -1,36 +1,12 @@
-<div
-class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:py-6 sm:px-6 border-b bg-card dark:bg-transparent">
 
-<div class="flex-1 min-w-0">
-    <div class="mt-2">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-            Clientes
-        </h2>
-    </div>
-</div>
+<subheader [title]="'Clientes'" (newElement)="openDialogClient(null)" (update)="refreshData($event)"></subheader>
 
-<div class="flex flex-shrink-0 justify-end items-center mt-4 sm:mt-0 sm:ml-4">
-    <button class="mr-2" mat-icon-button color="primary">
-        <mat-icon>refresh</mat-icon>
-    </button>
-    <button mat-flat-button [color]="'primary'">
-        <mat-icon>add</mat-icon>
-        <span class="ml-2 mr-1">Nuevo</span>
-    </button>
-</div>
-</div>
+<div class="mt-6">
+  <search (filtrar)="applyFilter($event)"></search>
 
-
-<div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container
-          *ngFor="let column of columns"
-          [matColumnDef]="column.columnDef"
-        >
-          <th mat-header-cell *matHeaderCellDef >{{column.header}}</th>
-          <td mat-cell *matCellDef="let row">{{column.cell(row)}}</td>
-        </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+  <div class="mat-elevation-z8">
+    <app-clients-table [dataSource]="dataSource" [columns]="columns"
+      [displayedColumns]="displayedColumns" (editElement)="openDialogClient($event)"
+      (deleteElement)="deleteClient($event)"></app-clients-table>
+  </div>
 </div>

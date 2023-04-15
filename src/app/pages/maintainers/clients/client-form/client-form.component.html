@@ -1,0 +1,102 @@
+<ng-container>
+    <h2 mat-dialog-title>{{title}}</h2>
+    <div mat-dialog-content class="flex flex-col" [formGroup]="clientForm">
+
+        <form class="w-full mt-2">
+            <div class="flex flex-wrap -mx-3 mb-2">
+                <mat-form-field appearance="outline" class="w-full md:w-1/2 px-3 md:mb-0">
+                    <mat-label>Tipo Identificación</mat-label>
+                    <mat-select formControlName="idTipoIdentificacion">
+                        <mat-option *ngFor="let framwork of optDNI" [value]="framwork">
+                            {{ framwork }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+                    <mat-label>Identificacion</mat-label>
+                    <input matInput formControlName="identificacion" [maxlength]="minLengtIdentification">
+                </mat-form-field>
+            </div>
+
+            <div class="flex flex-wrap -mx-3 mb-2" *ngIf="clientForm.get('razon')">
+                <mat-form-field class="w-full px-3" appearance="outline">
+                    <mat-label>Razón Social</mat-label>
+                    <input matInput formControlName="razon">
+                </mat-form-field>
+            </div>
+
+            <div class="flex flex-wrap -mx-3 mb-2" *ngIf="clientForm.get('nombres') && clientForm.get('apellidos')">
+                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+                    <mat-label>Nombres</mat-label>
+                    <input matInput type="text" formControlName="nombres">
+                    <mat-error *ngIf="clientForm.invalid">ERROR</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+                    <mat-label>Apellidos</mat-label>
+                    <input matInput type="text" formControlName="apellidos">
+                    <mat-error *ngIf="clientForm.invalid">ERROR</mat-error>
+                </mat-form-field>
+            </div> 
+
+            <div class="flex flex-wrap -mx-3 mb-2">
+                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+                    <mat-label>Celular</mat-label>
+                    <input matInput type="tel" formControlName="celular">
+                </mat-form-field>
+
+                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+                    <mat-label>Correo</mat-label>
+                    <input matInput type="email" formControlName="correo">
+                </mat-form-field>
+            </div>
+
+            <div class="flex flex-shrink-0 justify-end items-center mb-4 sm:mt-0 sm:ml-4">
+                <button mat-flat-button [color]="'primary'" (click)="addCar()">
+                  <mat-icon>add</mat-icon>
+                  <span class="ml-2 mr-1">Vehículo</span>
+                </button>
+            </div>
+
+            <div formArrayName="cars" *ngFor="let car of getCtrl('cars',clientForm)?.controls; index as formChild">
+                <ng-container [formGroupName]="formChild">
+                    <div class="flex flex-wrap -mx-3">
+                        <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
+                            <mat-label>Tipo de Vehículo</mat-label>
+                            <mat-select formControlName="idTipoVehiculo">
+                                <mat-option *ngFor="let framwork of frameworks" [value]="framwork">
+                                    {{ framwork }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+        
+                        <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
+                            <mat-label>Placa</mat-label>
+                            <input matInput mask="000-000" type="text" formControlName="placa">
+                            <!-- <mat-error *ngIf="clientForm.invalid">ERROR</mat-error> -->
+                        </mat-form-field>
+        
+                        <div class="mt-3">
+                            <button mat-mini-fab color="primary" class="mr-2" *ngIf="car.enabled" (click)="crearNueva(formChild)">
+                                <mat-icon>check</mat-icon>
+                            </button>
+
+                            <button mat-mini-fab color="primary" class="mr-2" *ngIf="car.disabled" (click)="habilitarEdicion(formChild)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+
+                            <button mat-mini-fab color="primary" *ngIf="car.enabled" (click)="removeCar(formChild)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                            <button mat-mini-fab color="warn" *ngIf="car.disabled">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </form>
+    </div>
+</ng-container>
