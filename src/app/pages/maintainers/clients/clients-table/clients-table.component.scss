@@ -29,3 +29,24 @@
         vertical-align: middle;
     }
 }
+
+table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin-top: 12px;
+
+    tr.demo-detail-row {
+        height: 0;
+    }
+}
+
+tr.demo-detail-row {
+    height: 0;
+}
+
+.demo-element-row td {
+    border-bottom-width: 0;
+}

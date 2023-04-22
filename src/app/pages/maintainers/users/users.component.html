@@ -4,7 +4,7 @@
     <search (filtrar)="applyFilter($event)"></search>
 
     <div class="mat-elevation-z8">
-        <app-clients-table [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
-            (editElement)="openDialogUser($event)" (deleteElement)="deleteUser($event)"></app-clients-table>
+        <users-table [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
+            (editElement)="openDialogUser($event)" (deleteElement)="deleteUser($event)"></users-table>
     </div>
 </div>

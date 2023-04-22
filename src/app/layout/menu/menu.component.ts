@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -6,7 +8,9 @@ import { Component } from '@angular/core';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent {
+export class MenuComponent implements OnDestroy {
+  currentRoute: string = '';
+  event$ !: Subscription;
 
   menuList: any[] = [{
     "text": "Dashboard",
@@ -49,7 +53,7 @@ export class MenuComponent {
     "icon": "desktop_windows",
     "children": [
       {
-        "text": "Cobro Garita",
+        "text": "Cobros Garita",
         "icon": "fiber_manual_record",
         "routerLink": "/processes/turns"
       },
@@ -61,9 +65,38 @@ export class MenuComponent {
     ]
   },
   {
-    "text": "Report",
+    "text": "Reportes",
     "icon": "analytics",
-    "routerLink": "/reports"
+    "children": [
+      {
+        "text": "Cobros Garita",
+        "icon": "fiber_manual_record",
+        "routerLink": "/reports/charges"
+      },
+      {
+        "text": "Historial Cobros",
+        "icon": "fiber_manual_record",
+        "routerLink": "/reports/record-charges"
+      }
+    ]
   }
   ];
+
+  constructor(private router: Router) {
+
+    this.event$
+      = this.router.events.subscribe(evt => {
+        if (evt instanceof NavigationEnd) {
+          this.currentRoute = evt.url;
+        }
+      });
+  }
+
+  isContain(menu: any){
+    return menu?.children.filter((e: any) => e.routerLink === this.currentRoute).length > 0;
+  }
+
+  ngOnDestroy(): void {
+    this.event$.unsubscribe();
+  }
 }

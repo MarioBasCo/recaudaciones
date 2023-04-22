@@ -6,66 +6,109 @@ import { MatDialog } from '@angular/material/dialog';
 export interface Student {
   name: string;
   subjects: string[];
-  marks: number[];
+  marks?: number[];
   class: string;
-  section: string;
+  section: Vehiculo[];
 }
+
+export interface Vehiculo {
+  id?: number;
+  placa: string;
+  id_tipo: number;
+}
+
 const ELEMENT_DATA: Student[] = [
   {
     name: 'Tony',
     subjects: ['MATH', 'PHY', 'CHEM'],
-    marks: [90, 95, 97],
     class: '12',
-    section: 'A',
+    section: [
+      {
+        placa: 'YBA-158',
+        id_tipo: 5
+      },
+      {
+        placa: 'YAA-788',
+        id_tipo: 5
+      }
+    ],
   },
   {
     name: 'Rita',
     subjects: ['MATH', 'PHY', 'BIO'],
-    marks: [97, 92, 96],
     class: '12',
-    section: 'A',
+    section: [
+      {
+        placa: 'YBA-158',
+        id_tipo: 5
+      }
+    ],
   },
   {
     name: 'Monty',
     subjects: ['MATH', 'PHY', 'BIO'],
-    marks: [80, 99, 100],
     class: '12',
-    section: 'B',
+    section: [
+      {
+        placa: 'YBA-158',
+        id_tipo: 5
+      }
+    ],
   },
   {
     name: 'Pintu',
     subjects: ['GEOLOGY', 'HISTORY'],
-    marks: [90, 95],
     class: '12',
-    section: 'C',
+    section: [
+      {
+        placa: 'YBA-158',
+        id_tipo: 5
+      }
+    ],
   },
   {
     name: 'Sarah',
     subjects: ['PAINTING', 'DANCE'],
-    marks: [97, 100],
     class: '12',
-    section: 'C',
+    section: [
+      {
+        placa: 'YBA-158',
+        id_tipo: 5
+      }
+    ],
   },
   {
     name: 'Monty',
     subjects: ['MATH', 'PHY', 'BIO'],
-    marks: [80, 99, 100],
     class: '12',
-    section: 'B',
+    section: [
+      {
+        placa: 'YBA-158',
+        id_tipo: 5
+      }
+    ],
   },
   {
     name: 'Pintu',
     subjects: ['GEOLOGY', 'HISTORY'],
-    marks: [90, 95],
     class: '12',
-    section: 'C',
+    section: [
+      {
+        placa: 'YBA-158',
+        id_tipo: 5
+      }
+    ],
   },
   {
     name: 'Sarah',
     subjects: ['PAINTING', 'DANCE'],
-    marks: [97, 100],
     class: '12',
-    section: 'C',
+    section: [
+      {
+        placa: 'YBA-158',
+        id_tipo: 5
+      }
+    ],
   },
 ];
 
@@ -79,8 +122,6 @@ export class ClientsComponent {
     'name',
     'class',
     'section',
-    'subjects',
-    'marks',
     'actions'
   ];
   columns = [
@@ -96,18 +137,8 @@ export class ClientsComponent {
     },
     {
       columnDef: 'section',
-      header: 'Section',
-      cell: (element: Student) => `${element.section}`,
-    },
-    {
-      columnDef: 'subjects',
-      header: 'Subjects',
-      cell: (element: Student) => `${element.subjects.join(', ')}`,
-    },
-    {
-      columnDef: 'marks',
-      header: 'Marks',
-      cell: (element: Student) => `${element.marks.join(', ')}`,
+      header: '# Vehiculos',
+      cell: (element: Student) => `${element.section.length}`,
     },
   ];
   dataSource!: MatTableDataSource<Student>;

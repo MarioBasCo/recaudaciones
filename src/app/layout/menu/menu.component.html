@@ -17,7 +17,7 @@
 </ng-template>
 
 <ng-template #childMenu let-menu="menu">
-    <mat-expansion-panel [class.mat-elevation-z0]="true">
+    <mat-expansion-panel [class.mat-elevation-z0]="true" [expanded]="isContain(menu)">
         <mat-expansion-panel-header>
             <mat-icon mat-list-icon>{{menu.icon}}</mat-icon>
             <span>{{menu.text}}</span>
