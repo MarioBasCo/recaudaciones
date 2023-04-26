@@ -1,34 +1,68 @@
-import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { EChartsOption } from 'echarts';
+
+export interface IGrid {
+  columns: number,
+  miniCard: IGridChild,
+  chart: IGridChild,
+  table: IGridChild,
+}
+
+export interface IGridChild {
+  col: number,
+  row: number
+}
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-  /** Based on the screen size, switch from standard to one column per row */
-  cardLayout = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return {
-          columns: 1,
-          miniCard: { cols: 1, rows: 1 },
-          chart: { cols: 1, rows: 2 },
-          table: { cols: 1, rows: 4 },
-        };
-      }
-
-      return {
-        columns: 4,
-        miniCard: { cols: 1, rows: 1 },
-        chart: { cols: 2, rows: 2 },
-        table: { cols: 4, rows: 4 },
-      };
-    })
+export class DashboardComponent implements OnInit {
+  
+  readonly breakpoint$ = this.breakpointObserver
+  .observe( [
+    Breakpoints.XSmall,
+    Breakpoints.Small,
+    Breakpoints.Medium,
+    Breakpoints.Large,
+    Breakpoints.XLarge,
+  ])
+  .pipe(
+    distinctUntilChanged()
   );
+
+  cols: any;
+  colsChart: any;
+
+  miniCards: any[] = [
+    {
+      textValue: 'Clientes',
+      value: 45,
+      icon: 'people',
+      color: '#6737B8'
+    },
+    {
+      textValue: 'Usuarios',
+      value: 4,
+      icon: 'business_center',
+      color: '#FFD635'
+    },
+    {
+      textValue: 'Locales Pendientes de cobro',
+      value: 3,
+      icon: 'local_convenience_store',
+      color: '#F44133'
+    },
+    {
+      textValue: 'Recaudación Mensual',
+      value: 40,
+      icon: 'attach_money',
+      color: '#6737B8'
+    }
+  ]
 
   option: EChartsOption = {
     tooltip: {
@@ -60,7 +94,7 @@ export class DashboardComponent {
       }
     ]
   };
-  
+
 
   chartOption: EChartsOption = {
     series: [
@@ -152,5 +186,35 @@ export class DashboardComponent {
     ]
   };
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver) { 
+  }
+
+  private breakpointChanged() {
+    if (this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
+      this.cols = 1;
+      this.colsChart = 1;
+    } 
+    if (this.breakpointObserver.isMatched(Breakpoints.Small)) {
+      this.cols = 2;
+      this.colsChart = 1;
+    } 
+    if (this.breakpointObserver.isMatched(Breakpoints.Medium)) {
+      this.cols = 3;
+      this.colsChart = 2;
+    } 
+    if (this.breakpointObserver.isMatched(Breakpoints.Large)) {
+      this.cols = 4;
+      this.colsChart = 2;
+    }
+    if (this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
+      this.cols = 4;
+      this.colsChart = 2;
+    }
+  };
+
+  ngOnInit(): void {
+    this.breakpoint$.subscribe(() =>
+      this.breakpointChanged()
+    );
+  }
 }
