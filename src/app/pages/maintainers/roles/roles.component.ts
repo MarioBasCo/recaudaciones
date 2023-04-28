@@ -54,6 +54,10 @@ export class RolesComponent {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
+
+  refreshData() {
+    
+  }
 }
 
 /** Builds and returns a new User. */

@@ -1,4 +1,14 @@
-<subheader [title]="'Usuarios'" (newElement)="openDialogUser(null)" (update)="refreshData($event)"></subheader>
+<subheader [title]="'Usuarios'">
+    <ng-container>
+        <button class="mr-2" mat-icon-button color="primary" (click)="refreshData()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-flat-button [color]="'primary'" (click)="openDialogUser()">
+            <mat-icon>add</mat-icon>
+            <span class="ml-2 mr-1">Nuevo</span>
+        </button>
+    </ng-container>
+</subheader>
 
 <div class="mt-6">
     <search (filtrar)="applyFilter($event)"></search>

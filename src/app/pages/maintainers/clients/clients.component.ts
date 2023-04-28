@@ -161,10 +161,8 @@ export class ClientsComponent {
     });
   }
 
-  refreshData(ev: boolean){
-    if(ev) {
-      alert('Refresh');
-    }
+  refreshData(){
+
   }
 
   applyFilter(filterValue: string){

@@ -66,10 +66,8 @@ export class UsersComponent {
     });
   }
 
-  refreshData(ev: boolean){
-    if(ev) {
-      alert('Refresh');
-    }
+  refreshData(){
+
   }
 
   applyFilter(filterValue: string){

@@ -10,12 +10,6 @@
   </div>
 
   <div class="flex flex-shrink-0 justify-end items-center mt-4 sm:mt-0 sm:ml-4">
-    <button class="mr-2" mat-icon-button color="primary" (click)="refresh()">
-      <mat-icon>refresh</mat-icon>
-    </button>
-    <button mat-flat-button [color]="'primary'" (click)="openModal()">
-      <mat-icon>add</mat-icon>
-      <span class="ml-2 mr-1">Nuevo</span>
-    </button>
+    <ng-content></ng-content>
   </div>
 </div>
