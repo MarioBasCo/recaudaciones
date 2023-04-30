@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { FormContractComponent } from './form-contract/form-contract.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-contracts',
@@ -49,8 +51,22 @@ export class ContractsComponent {
   ];
   dataSource!: MatTableDataSource<any>;
 
-  openDialog(client: any = null) {
+  constructor(public dialog: MatDialog){
 
+  }
+
+  openDialog(data: any = null) {
+    const dialogRef = this.dialog.open(FormContractComponent, {
+      data: data,
+      width: '550px',
+      minWidth: 'auto'
+    });
+
+    dialogRef.afterClosed().subscribe((res: any) => {
+      if (res) {
+
+      }
+    });
   }
 
 

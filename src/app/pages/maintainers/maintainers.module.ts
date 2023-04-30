@@ -17,6 +17,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SubheaderComponent } from 'src/app/components/subheader/subheader.component';
 import { SearchComponent } from 'src/app/components/search/search.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
+import { FormContractComponent } from './contracts/form-contract/form-contract.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -29,11 +31,13 @@ import { UsersTableComponent } from './users/users-table/users-table.component';
     UserFormComponent,
     ClientsTableComponent,
     ClientFormComponent,
-    UsersTableComponent
+    UsersTableComponent,
+    FormContractComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
+    NgxDropzoneModule,
     SubheaderComponent,
     SearchComponent,
     ReactiveFormsModule,

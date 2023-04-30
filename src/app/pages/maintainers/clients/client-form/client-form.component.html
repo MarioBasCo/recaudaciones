@@ -11,11 +11,13 @@
                             {{ framwork }}
                         </mat-option>
                     </mat-select>
+                    <mat-error>{{getErrorTipoIdentificacion()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Identificacion</mat-label>
+                    <mat-label>Identificación</mat-label>
                     <input matInput formControlName="identificacion" [maxlength]="minLengtIdentification">
+                    <mat-error>{{getErrorIdentificacion()}}</mat-error>
                 </mat-form-field>
             </div>
 
@@ -23,6 +25,7 @@
                 <mat-form-field class="w-full px-3" appearance="outline">
                     <mat-label>Razón Social</mat-label>
                     <input matInput formControlName="razon">
+                    <mat-error>{{getErrorRazon()}}</mat-error>
                 </mat-form-field>
             </div>
 
@@ -30,30 +33,32 @@
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Nombres</mat-label>
                     <input matInput type="text" formControlName="nombres">
-                    <mat-error *ngIf="clientForm.invalid">ERROR</mat-error>
+                    <mat-error>{{getErrorNombres()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Apellidos</mat-label>
                     <input matInput type="text" formControlName="apellidos">
-                    <mat-error *ngIf="clientForm.invalid">ERROR</mat-error>
+                    <mat-error>{{getErrorApellidos()}}</mat-error>
                 </mat-form-field>
             </div> 
 
             <div class="flex flex-wrap -mx-3 mb-2">
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Celular</mat-label>
-                    <input matInput type="tel" formControlName="celular">
+                    <input matInput type="tel" formControlName="celular" maxlength="10">
+                    <mat-error>{{getErrorCelular()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Correo</mat-label>
                     <input matInput type="email" formControlName="correo">
+                    <mat-error>{{getErrorCorreo()}}</mat-error>
                 </mat-form-field>
             </div>
 
             <div class="flex flex-shrink-0 justify-end items-center mb-4 sm:mt-0 sm:ml-4">
-                <button mat-flat-button [color]="'primary'" (click)="addCar()">
+                <button mat-flat-button [color]="'primary'" type="button" (click)="addCar()">
                   <mat-icon>add</mat-icon>
                   <span class="ml-2 mr-1">Vehículo</span>
                 </button>
@@ -73,7 +78,7 @@
         
                         <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
                             <mat-label>Placa</mat-label>
-                            <input matInput mask="000-000" type="text" formControlName="placa">
+                            <input matInput type="text" [patterns]="customPatterns" mask="UUU-000" formControlName="placa">
                             <!-- <mat-error *ngIf="clientForm.invalid">ERROR</mat-error> -->
                         </mat-form-field>
         
@@ -98,5 +103,17 @@
                 </ng-container>
             </div>
         </form>
+    </div>
+    <div mat-dialog-actions class="justify-end">
+        <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading"
+            color="warn">Cancelar</button>
+        <button mat-raised-button class="min-w-26" [disabled]="isLoading || clientForm.invalid" color="primary" (click)="save()">
+            <ng-container *ngIf="isLoading; else elseTemplate">
+                <mat-spinner [diameter]="25"></mat-spinner>
+            </ng-container>
+            <ng-template #elseTemplate>
+                Guardar
+            </ng-template>
+        </button>
     </div>
 </ng-container>
