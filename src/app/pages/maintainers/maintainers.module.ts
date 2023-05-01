@@ -19,6 +19,10 @@ import { SearchComponent } from 'src/app/components/search/search.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
 import { FormContractComponent } from './contracts/form-contract/form-contract.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { TrimDirective } from 'src/app/shared/directives/trim.directive';
+import { DisallowSpacesDirective } from 'src/app/shared/directives/disallow-spaces.directive';
+import { OnlyNumbersDirective } from 'src/app/shared/directives/only-numbers.directive';
+import { PlaqueDirective } from 'src/app/shared/directives/plaque.directive';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     ReactiveFormsModule,
     MaintainersRoutingModule,
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    TrimDirective,
+    DisallowSpacesDirective,
+    OnlyNumbersDirective,
+    PlaqueDirective
   ],
   providers: [
     provideNgxMask()

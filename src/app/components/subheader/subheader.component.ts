@@ -12,15 +12,4 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class SubheaderComponent {
   @Input() title: string = '';
-  @Input() options: boolean = true;
-  @Output() update = new EventEmitter<boolean>();
-  @Output() newElement = new EventEmitter<boolean>();
-
-  openModal(){
-    this.newElement.emit(true);
-  }
-
-  refresh(){
-    this.update.emit(true);
-  }
 }

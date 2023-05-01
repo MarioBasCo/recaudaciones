@@ -16,7 +16,7 @@
 
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Identificación</mat-label>
-                    <input matInput formControlName="identificacion" [maxlength]="minLengtIdentification">
+                    <input matInput onlyNumbers formControlName="identificacion" [maxlength]="minLengtIdentification">
                     <mat-error>{{getErrorIdentificacion()}}</mat-error>
                 </mat-form-field>
             </div>
@@ -24,7 +24,7 @@
             <div class="flex flex-wrap -mx-3 mb-2" *ngIf="clientForm.get('razon')">
                 <mat-form-field class="w-full px-3" appearance="outline">
                     <mat-label>Razón Social</mat-label>
-                    <input matInput formControlName="razon">
+                    <input matInput trim formControlName="razon">
                     <mat-error>{{getErrorRazon()}}</mat-error>
                 </mat-form-field>
             </div>
@@ -32,13 +32,13 @@
             <div class="flex flex-wrap -mx-3 mb-2" *ngIf="clientForm.get('nombres') && clientForm.get('apellidos')">
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Nombres</mat-label>
-                    <input matInput type="text" formControlName="nombres">
+                    <input matInput trim type="text" formControlName="nombres">
                     <mat-error>{{getErrorNombres()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Apellidos</mat-label>
-                    <input matInput type="text" formControlName="apellidos">
+                    <input matInput trim type="text" formControlName="apellidos">
                     <mat-error>{{getErrorApellidos()}}</mat-error>
                 </mat-form-field>
             </div> 
@@ -46,13 +46,13 @@
             <div class="flex flex-wrap -mx-3 mb-2">
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Celular</mat-label>
-                    <input matInput type="tel" formControlName="celular" maxlength="10">
+                    <input matInput onlyNumbers trim type="tel" formControlName="celular" maxlength="10">
                     <mat-error>{{getErrorCelular()}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Correo</mat-label>
-                    <input matInput type="email" formControlName="correo">
+                    <input matInput disallow-spaces type="email" formControlName="correo">
                     <mat-error>{{getErrorCorreo()}}</mat-error>
                 </mat-form-field>
             </div>
@@ -78,24 +78,24 @@
         
                         <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
                             <mat-label>Placa</mat-label>
-                            <input matInput type="text" [patterns]="customPatterns" mask="UUU-000" formControlName="placa">
+                            <input matInput type="text" plaque class="placa" [patterns]="customPatterns" mask="SSS-000" formControlName="placa">
                             <!-- <mat-error *ngIf="clientForm.invalid">ERROR</mat-error> -->
                         </mat-form-field>
         
                         <div class="mt-3">
-                            <button mat-mini-fab color="primary" class="mr-2" *ngIf="car.enabled" (click)="crearNueva(formChild)">
+                            <button type="button" mat-mini-fab color="primary" class="mr-2" [disabled]="car.invalid" *ngIf="car.enabled" (click)="crearNueva(formChild)">
                                 <mat-icon>check</mat-icon>
                             </button>
 
-                            <button mat-mini-fab color="primary" class="mr-2" *ngIf="car.disabled" (click)="habilitarEdicion(formChild)">
+                            <button type="button" mat-mini-fab color="primary" class="mr-2" *ngIf="car.disabled" (click)="habilitarEdicion(formChild)">
                                 <mat-icon>edit</mat-icon>
                             </button>
 
-                            <button mat-mini-fab color="primary" *ngIf="car.enabled" (click)="removeCar(formChild)">
+                            <button type="button" mat-mini-fab color="primary" *ngIf="car.enabled" (click)="removeCar(formChild)">
                                 <mat-icon>close</mat-icon>
                             </button>
 
-                            <button mat-mini-fab color="warn" *ngIf="car.disabled">
+                            <button type="button" mat-mini-fab color="warn" *ngIf="car.disabled">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
