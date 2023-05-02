@@ -25,3 +25,9 @@ p {
 .mat-mdc-form-field .mdc-notched-outline__notch {
     border-right: 0px !important;
 }
+
+.snackbar {
+    //--mat-mdc-snack-bar-button-color: red;
+    --mdc-snackbar-container-color: #fff;
+    --mdc-snackbar-supporting-text-color: #000;
+}

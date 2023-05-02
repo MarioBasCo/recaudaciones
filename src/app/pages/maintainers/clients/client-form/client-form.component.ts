@@ -2,6 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { ToastService } from 'src/app/shared/services/toast.service';
 import { cedulaValidation } from 'src/app/shared/utils/cedula-validator';
 import { rucValidation } from 'src/app/shared/utils/ruc-validator';
 
@@ -16,6 +17,8 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public isEdit: boolean = false;
   public minLengtIdentification: number = 0;
+  public validatorEcu!: ValidatorFn;
+  public validIdentity: FormControl = new FormControl(null);
   public pat_placa: string = "^([A-Z]{3}-\d{3,4})$";
   public emailregex: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
   public letterregex: string = "[A-Za-zÁÉÍÓÚáéíóúñÑ ]+";
@@ -29,7 +32,8 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ClientFormComponent>,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private toast: ToastService
   ) {
     this.clientForm = this.createForm(data);
     this.title = this.data ? 'Editar' : 'Nuevo';
@@ -40,14 +44,13 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
 
   private changeValidatorsIdentification(valor: string) {
+    this.validIdentity.setValue(null);
     //Obtenemos el control ya instanciado en el formulario. 
-    let objetivoControl = this.clientForm.get("identificacion");
+    let objetivoControl = this.identificacion;
     objetivoControl?.setValue(null);
     objetivoControl?.enable();
     //Quitamos todas las validaciones del control.
     objetivoControl?.clearValidators();
-
-    let validatorEcu!: ValidatorFn;
 
     //Agregamos la validacion segun el caso:
     switch (valor) {
@@ -57,14 +60,14 @@ export class ClientFormComponent implements OnInit, OnDestroy {
         this.clientForm.addControl("nombres", new FormControl('', [Validators.required, Validators.pattern(this.letterregex), Validators.minLength(3)]));
         this.clientForm.addControl("apellidos", new FormControl('', [Validators.required, Validators.pattern(this.letterregex), Validators.minLength(3)]));
         this.minLengtIdentification = 10;
-        validatorEcu = cedulaValidation();
+        this.validatorEcu = cedulaValidation();
         break;
       case "RUC":
         this.clientForm?.removeControl("nombres");
         this.clientForm?.removeControl("apellidos");
         this.clientForm.addControl("razon", new FormControl('', [Validators.required, Validators.minLength(3)]));
         this.minLengtIdentification = 13;
-        validatorEcu = rucValidation();
+        this.validatorEcu = rucValidation();
         break;
     }
 
@@ -72,7 +75,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       Validators.required,
       Validators.minLength(this.minLengtIdentification),
       Validators.pattern("^[0-9]*$"),
-      validatorEcu
+      this.validatorEcu
     ]);
 
     //Para evitar problemas con la validacion marcamos el campo con 
@@ -102,6 +105,10 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  get identificacion() {
+    return this.clientForm.get('identificacion');
+  }
+
   getCtrl(key: string, form: FormGroup): any {
     return form.get(key);
   }
@@ -127,11 +134,23 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     cars.at(i).enable();
   }
 
+  checkNoValidate(ev: any) {
+    let objetivoControl = this.identificacion;
+    if (ev.checked) {
+      objetivoControl?.removeValidators(this.validatorEcu);
+    } else {
+      objetivoControl?.addValidators(this.validatorEcu);
+    }
+    objetivoControl?.markAsDirty();
+    objetivoControl?.updateValueAndValidity();
+  }
+
   save() {
     this.isLoading = true;
     setTimeout(() => {
       this.isLoading = false;
       console.log(this.clientForm.value);
+      this.toast.openSnackBar('Registro guardado con éxito');
     }, 500);
   }
 

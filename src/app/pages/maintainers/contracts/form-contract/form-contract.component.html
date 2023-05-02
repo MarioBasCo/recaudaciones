@@ -52,8 +52,8 @@
             </div> -->
             <div class="flex flex-wrap -mx-3 mb-2">
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Tiempo Contrato</mat-label>
-                    <input matInput type="number" formControlName="mesesContrato">
+                    <mat-label>Meses de Contrato</mat-label>
+                    <input matInput type="number" min="1" formControlName="mesesContrato">
                     <mat-error *ngIf="contractForm.invalid">Campo requerido</mat-error>
                 </mat-form-field>
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0">
