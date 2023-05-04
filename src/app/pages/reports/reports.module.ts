@@ -7,12 +7,15 @@ import { ChargesComponent } from './charges/charges.component';
 import { RangeDateComponent } from 'src/app/components/range-date/range-date.component';
 import { SubheaderComponent } from 'src/app/components/subheader/subheader.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
-
+import { NgApexchartsModule } from "ng-apexcharts";
+import { ChargeTableComponent } from './charges/charge-table/charge-table.component';
+import { BackgroundComponent } from 'src/app/components/background/background.component';
 
 @NgModule({
   declarations: [
     RecordChargesComponent,
-    ChargesComponent
+    ChargesComponent,
+    ChargeTableComponent
   ],
   imports: [
     CommonModule,
@@ -20,6 +23,8 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
     RangeDateComponent,
     ReportsRoutingModule,
     MaterialModule,
-  ]
+    NgApexchartsModule,
+    BackgroundComponent
+  ],
 })
 export class ReportsModule { }

@@ -1,6 +1,42 @@
 <subheader title="Cobro de Garita">
     <app-range-date></app-range-date>
-    <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" class="ml-4">
+    <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" class="ml-2 -mr-3">
         <mat-icon>search</mat-icon>
     </button>
 </subheader>
+
+<!-- <div *ngIf="chartOptions">
+    <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [xaxis]="chartOptions.xaxis"
+    [title]="chartOptions.title"
+  ></apx-chart>
+</div> -->
+
+<!--   <div fxLayout="row" fxLayout.xs="column">
+    <div fxFlex="50%;" fxFlex.md="100%" fxFlex.xs="100%">
+        
+    </div>
+
+    <div fxFlex="50%;" fxFlex.md="100%" fxFlex.xs="100%">
+        <h2>Left Card 2</h2>
+    </div>
+</div> -->
+<div class="mt-6"></div>
+<div fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" style="width: 100%; display: flex; justify-content: center;">
+    <div fxFlex.sm="0 1 calc(100%-10px)" fxFlex.lg="0 1 calc(40%-10px)" fxFlex.md="0 1 calc(80%-10px)" class="mb-4">
+        <div id="chart" style="text-align:center">
+            <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [labels]="chartOptions.labels"
+              [responsive]="chartOptions.responsive"
+            ></apx-chart>
+        </div>
+    </div>
+
+    <div fxFlex.sm="0 1 calc(100%-10px)" fxFlex.lg="0 1 calc(60%-10px)" fxFlex.md="0 1 calc(90%-10px)" class="mb-4">
+        <charge-table></charge-table>
+    </div>
+</div>

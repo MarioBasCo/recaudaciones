@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'src/app/shared/services/alert.service';
+import { OptionsAlert } from 'src/app/components/alert-dialog/alert-dialog.component';
 
 export interface Student {
   name: string;
@@ -143,7 +145,7 @@ export class ClientsComponent {
   ];
   dataSource!: MatTableDataSource<Student>;
 
-  constructor(public dialog: MatDialog){}
+  constructor(public dialog: MatDialog, private alert: AlertService){}
   
   ngOnInit() {
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -172,6 +174,16 @@ export class ClientsComponent {
   }
 
   deleteClient(data: any) {
-    alert(JSON.stringify(data));
+    const opt: OptionsAlert = {
+      title: '❌ Eliminar Registro',
+      message: '¿Deseas eliminar este registro?'
+    };
+    const dialogAlert = this.alert.open(opt);
+
+    dialogAlert.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        alert(JSON.stringify(data));
+      }
+    });
   }
 }

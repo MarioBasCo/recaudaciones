@@ -6,12 +6,12 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class OnlyNumbersDirective {
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef<HTMLInputElement>) { }
 
-  @HostListener('input', ['$event']) onInputChange(event: any) {
+  @HostListener('input', ['$event']) onInputChange(event: KeyboardEvent) {
     const initalValue = this.el.nativeElement.value;
     this.el.nativeElement.value = initalValue.replace(/[^0-9]*/g, '');
-    if ( initalValue !== this.el.nativeElement.value) {
+    if (initalValue !== this.el.nativeElement.value) {
       event.stopPropagation();
     }
   }

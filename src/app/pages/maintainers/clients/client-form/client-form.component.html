@@ -49,7 +49,7 @@
             <div class="flex flex-wrap -mx-3 mb-2">
                 <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
                     <mat-label>Celular</mat-label>
-                    <input matInput onlyNumbers trim type="tel" formControlName="celular" maxlength="10">
+                    <input matInput phone type="tel" formControlName="celular" maxlength="10">
                     <mat-error class="-mx-3">{{getErrorCelular()}}</mat-error>
                 </mat-form-field>
 

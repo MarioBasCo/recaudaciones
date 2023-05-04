@@ -8,4 +8,5 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class NavComponent {
   @Input() sidenav!: MatSidenav;
+  user: string = 'user';
 }

@@ -4,19 +4,13 @@ export function cedulaValidation(): ValidatorFn {
     return(control: AbstractControl): { [key: string]: boolean } | null => {
         const auxCedula: string = control.value;
 
-        if(!auxCedula) {
-            return { ecuadorianValid: true };
-        }
+        if(!auxCedula) return { ecuadorianValid: true };
 
-        if (auxCedula.length !== 10) {
-            return { ecuadorianValid: true };
-        }
+        if (auxCedula.length !== 10) return { ecuadorianValid: true };
 
         const primeros2 = +auxCedula.slice(0, 2);
 
-        if (primeros2 < 1 || primeros2 > 24) {
-            return { ecuadorianValid: true };
-        }
+        if (primeros2 < 1 || primeros2 > 24) return { ecuadorianValid: true };
 
         const digitoVerificador = +(auxCedula.split('').slice(-1));
 
@@ -36,11 +30,7 @@ export function cedulaValidation(): ValidatorFn {
 
         const resp = ( (residuo === 0) ? (digitoVerificador === 0) : ((10 - residuo) === digitoVerificador) );
         
-        if (resp == true) {
-            return null;
-        } else {
-            return { ecuadorianValid: true };
-        }
+        return resp ? null : { ecuadorianValid: true }; 
     
     }
 }
