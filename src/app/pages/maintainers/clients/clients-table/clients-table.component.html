@@ -1,5 +1,5 @@
 <div class="table-responsive">
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort multiTemplateDataRows>
+  <table mat-table [dataSource]="dataSource" class="table-expand" matSort multiTemplateDataRows>
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
       <mat-header-cell *matHeaderCellDef mat-sort-header>{{column.header}}</mat-header-cell>
       <mat-cell *matCellDef="let row">{{column.cell(row)}}</mat-cell>
@@ -51,7 +51,7 @@
       [class.demo-expanded]="expandedElement == row"
       (click)="expandedElement = expandedElement === row ? undefined : row"></mat-row>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="demo-detail-row"></tr>
-  </mat-table>
+  </table>
 </div>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>

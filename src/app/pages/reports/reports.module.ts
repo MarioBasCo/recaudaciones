@@ -10,12 +10,14 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { ChargeTableComponent } from './charges/charge-table/charge-table.component';
 import { BackgroundComponent } from 'src/app/components/background/background.component';
+import { ShopChargesComponent } from './shop-charges/shop-charges.component';
 
 @NgModule({
   declarations: [
     RecordChargesComponent,
     ChargesComponent,
-    ChargeTableComponent
+    ChargeTableComponent,
+    ShopChargesComponent
   ],
   imports: [
     CommonModule,

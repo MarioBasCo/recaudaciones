@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 export class MenuComponent implements OnDestroy {
   currentRoute: string = '';
   event$ !: Subscription;
-  //<mat-icon> local_convenience_store</mat-icon>
   menuList: any[] = [
     {
       "text": "Dashboard",
@@ -83,6 +82,11 @@ export class MenuComponent implements OnDestroy {
           "text": "Historial Cobros",
           "icon": "fiber_manual_record",
           "routerLink": "/reports/record-charges"
+        },
+        {
+          "text": "Cobro Locales",
+          "icon": "fiber_manual_record",
+          "routerLink": "/reports/shop-charges"
         }
       ]
     }

@@ -1,11 +1,11 @@
-import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'users-table',
   templateUrl: './users-table.component.html',
-  styleUrls: ['./users-table.component.scss']
+  styleUrls: ['./users-table.component.scss'],
 })
 export class UsersTableComponent {
   @Input() dataSource: any;

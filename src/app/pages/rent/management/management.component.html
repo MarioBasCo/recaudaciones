@@ -1,0 +1,33 @@
+<section class="pt-5">
+    <!-- <p>management works!</p> -->
+    <div class="flex flex-shrink-0 justify-end items-center mb-4 sm:mt-0 sm:ml-4">
+        <button mat-flat-button [color]="'primary'">
+            <mat-icon>add</mat-icon>
+            <span class="ml-2 mr-1">Nuevo</span>
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{column.header}}</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{column.cell(row)}}</mat-cell>
+            </ng-container>
+            <ng-container [matColumnDef]="'actions'">
+                <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
+                <mat-cell *matCellDef="let row;">
+                    <button mat-icon-button (click)="openEditForm(row)">
+                        <mat-icon aria-hidden="false" aria-label="Editar" color="primary">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteUser(row)">
+                        <mat-icon aria-hidden="false" aria-label="Eliminar" color="warn">delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </table>
+    </div>
+    
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+</section>

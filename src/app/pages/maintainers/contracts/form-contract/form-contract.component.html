@@ -31,7 +31,7 @@
                     <mat-label>Curriculum</mat-label>
                     <input matInput type="text" readonly [formControl]="cv">
                     <ngx-dropzone class="hidden" #dropCV (change)="onSelect('cv', $event)" [multiple]="false"></ngx-dropzone>
-                    <button mat-icon-button (click)="dropCV.showFileSelector()">
+                    <button type="button" mat-icon-button (click)="dropCV.showFileSelector()">
                        <mat-icon>cloud_upload</mat-icon>
                     </button>
                     <mat-error *ngIf="contractForm.invalid">Campo requerido</mat-error>
@@ -41,7 +41,7 @@
                     <mat-label>Referencias</mat-label>
                     <input matInput type="text" readonly [formControl]="referencias">
                     <ngx-dropzone class="hidden" #dropReferencia (change)="onSelect('referencias', $event)"></ngx-dropzone>
-                    <button mat-icon-button (click)="dropReferencia.showFileSelector()">
+                    <button type="button" mat-icon-button (click)="dropReferencia.showFileSelector()">
                        <mat-icon>cloud_upload</mat-icon>
                     </button>
                     <mat-error *ngIf="contractForm.invalid">Campo requerido</mat-error>
