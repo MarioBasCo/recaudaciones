@@ -11,25 +11,25 @@
 
                 <!-- User field -->
                 <mat-form-field class="w-full" appearance="outline">
-                    <mat-label>User</mat-label>
+                    <mat-label>Usuario</mat-label>
                     <input
                         id="email"
                         matInput
-                        [formControlName]="'usuario'">
-                    <mat-error *ngIf="signInForm.get('usuario')?.hasError('required')">
-                        User is required
+                        formControlName="name">
+                    <mat-error *ngIf="signInForm.get('name')?.hasError('required')">
+                        * El campo usuario es requerido
                     </mat-error>           
                 </mat-form-field>
 
                 <!-- Password field -->
                 <mat-form-field class="w-full" appearance="outline">
-                    <mat-label>Password</mat-label>
+                    <mat-label>Contraseña</mat-label>
                     <input
                         id="password"
                         matInput
                         type="password"
                         autocomplete="on"
-                        [formControlName]="'password'"
+                        formControlName="password"
                         #passwordField>
                     <button
                         mat-icon-button
@@ -47,7 +47,7 @@
                         >visibility_off</mat-icon>
                     </button>
                     <mat-error>
-                        Password is required
+                        * El campo contraseña es requerido
                     </mat-error>
                 </mat-form-field>
 
@@ -66,16 +66,17 @@
 
                 <!-- Submit button -->
                 <button
-                    class="fuse-mat-button-large w-full mt-6"
+                    class="w-full mt-6"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="signInForm.disabled"
+                    [disabled]="signInForm.invalid"
                     (click)="signIn()">
-                    <span *ngIf="!signInForm.disabled">
+                    <span *ngIf="!showLoading">
                         Ingresar
                     </span>
                     <mat-progress-spinner
-                        *ngIf="signInForm.disabled"
+                        style="color: aliceblue;"
+                        *ngIf="showLoading"
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>

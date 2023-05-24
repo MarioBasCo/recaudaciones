@@ -1,20 +1,7 @@
-.flex {
+.wrapper {
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-}
-
-.gap-4 {
-    gap: 1rem;
-}
-
-.justify-start {
-    justify-content: flex-start;
-}
-
-.items-center {
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-}
-
-.inline {
-    display: inline;
 }

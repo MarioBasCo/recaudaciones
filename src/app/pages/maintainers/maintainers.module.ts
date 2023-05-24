@@ -8,7 +8,6 @@ import { ParamsComponent } from './params/params.component';
 import { RolesComponent } from './roles/roles.component';
 import { UsersComponent } from './users/users.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
-import { ModalAddRoleComponent } from './roles/modal-add-role/modal-add-role.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserFormComponent } from './users/user-form/user-form.component';
 import { ClientsTableComponent } from './clients/clients-table/clients-table.component';
@@ -24,6 +23,8 @@ import { DisallowSpacesDirective } from 'src/app/shared/directives/disallow-spac
 import { OnlyNumbersDirective } from 'src/app/shared/directives/only-numbers.directive';
 import { PlaqueDirective } from 'src/app/shared/directives/plaque.directive';
 import { PhoneDirective } from 'src/app/shared/directives/phone.directive';
+import { RoleFormComponent } from './roles/role-form/role-form.component';
+import { RolesTableComponent } from './roles/roles-table/roles-table.component';
 
 @NgModule({
   declarations: [
@@ -32,12 +33,13 @@ import { PhoneDirective } from 'src/app/shared/directives/phone.directive';
     ParamsComponent,
     RolesComponent,
     UsersComponent,
-    ModalAddRoleComponent,
     UserFormComponent,
     ClientsTableComponent,
     ClientFormComponent,
     UsersTableComponent,
-    FormContractComponent
+    FormContractComponent,
+    RoleFormComponent,
+    RolesTableComponent
   ],
   imports: [
     CommonModule,

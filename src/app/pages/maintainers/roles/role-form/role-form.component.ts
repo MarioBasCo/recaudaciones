@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-modal-add-role',
-  templateUrl: './modal-add-role.component.html',
-  styleUrls: ['./modal-add-role.component.scss']
+  selector: 'app-role-form',
+  templateUrl: './role-form.component.html',
+  styleUrls: ['./role-form.component.scss']
 })
-export class ModalAddRoleComponent {
+export class RoleFormComponent {
   public roleForm: FormGroup;
   public title: string;
   public isLoading: boolean = false;
@@ -15,7 +15,7 @@ export class ModalAddRoleComponent {
     constructor( 
       @Inject(MAT_DIALOG_DATA) public data: any, 
       private fb: FormBuilder,
-      public dialogRef: MatDialogRef<ModalAddRoleComponent>){
+      public dialogRef: MatDialogRef<RoleFormComponent>){
       this.roleForm = this.createForm(data);
       this.title = this.data ? 'Editar' : 'Nuevo';
     }

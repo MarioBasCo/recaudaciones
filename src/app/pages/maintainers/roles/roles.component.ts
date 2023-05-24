@@ -3,7 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ModalAddRoleComponent } from './modal-add-role/modal-add-role.component';
+import { RoleFormComponent } from './role-form/role-form.component';
+import { RoleService } from './role.service';
 
 @Component({
   selector: 'app-roles',
@@ -17,13 +18,19 @@ export class RolesComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor( public dialog: MatDialog) {
-    // Create 100 users
+  constructor(
+    public dialog: MatDialog,
+    private _svcRole: RoleService) {
     const users: UserData[] = [];
     for (let i = 1; i <= 100; i++) { users.push(createNewUser(i)); }
 
-    // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
+  }
+
+  ngOnInit(){
+    this._svcRole.getRoles().subscribe(resp => {
+      console.log(resp);
+    });
   }
 
   /**
@@ -36,7 +43,7 @@ export class RolesComponent {
   }
 
   openDialogRole(role: any = null) {
-    const dialogRef = this.dialog.open(ModalAddRoleComponent, {
+    const dialogRef = this.dialog.open(RoleFormComponent, {
       data: role,
       minWidth: 'auto'
     });

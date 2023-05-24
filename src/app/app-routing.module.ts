@@ -2,11 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { authGuardFn } from './shared/guards/auth.guard';
+import { isLoginGuardFn } from './shared/guards/islogin.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [authGuardFn],
     children: [
       {
         path: '', 
@@ -37,6 +40,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
+    canActivate: [isLoginGuardFn],
     loadChildren: () => import('src/app/auth/auth.module').then(m => m.AuthModule)
   },
   {

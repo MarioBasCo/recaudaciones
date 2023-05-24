@@ -5,6 +5,12 @@ import { Subscription } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { cedulaValidation } from 'src/app/shared/utils/cedula-validator';
 import { rucValidation } from 'src/app/shared/utils/ruc-validator';
+import { Client, TipoVehiculo } from '../client.interface';
+import { ClientsService } from '../clients.service';
+import { OptionsAlert } from 'src/app/components/alert-dialog/alert-dialog.component';
+import { AlertService } from 'src/app/shared/services/alert.service';
+import { ValidatorsService } from 'src/app/shared/services/validators.service';
+import { existsPlaqueValidator } from 'src/app/shared/utils/existsPlaqueValidator';
 
 @Component({
   selector: 'app-client-form',
@@ -14,86 +20,85 @@ import { rucValidation } from 'src/app/shared/utils/ruc-validator';
 export class ClientFormComponent implements OnInit, OnDestroy {
   public title: string = '';
   public clientForm: FormGroup;
+  public clienteOriginal: any;
+  public cambiosRealizados: boolean = false;
   public isLoading: boolean = false;
   public isEdit: boolean = false;
   public minLengtIdentification: number = 0;
   public validatorEcu!: ValidatorFn;
   public validIdentity: FormControl = new FormControl(null);
-  public pat_placa: string = "^([A-Z]{3}-\d{3,4})$";
+  public placaregex: RegExp = /^([A-Za-z]{3}-?\d{3,4}|(\d)\2{2}-\2{3})$/;
   public emailregex: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
   public letterregex: string = "[A-Za-zÁÉÍÓÚáéíóúñÑ ]+";
   public phoneregex: string = "^0(9)[0-9\d]{8}$";
   private myFormValueChanges$!: Subscription;
 
-  public customPatterns = { 'S': { pattern: new RegExp('\[a-zA-Z\]') }, '0': { pattern: new RegExp('^[0-9]*$') } };
-  frameworks: string[] = ['Furgón', 'Camioneta', 'Camión'];
+  tiposVehiculo: TipoVehiculo[] = [];
   optDNI: string[] = ['Cedula', 'RUC'];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: Client,
     public dialogRef: MatDialogRef<ClientFormComponent>,
     public fb: FormBuilder,
-    private toast: ToastService
+    private toast: ToastService,
+    private _svcClient: ClientsService,
+    private alert: AlertService,
+    private _svcValid: ValidatorsService
   ) {
-    this.clientForm = this.createForm(data);
-    this.title = this.data ? 'Editar' : 'Nuevo';
+    this.clientForm = this.createForm();
+    this.title = this.data ? 'Actualización de Datos' : 'Nuevo Registro';
   }
 
   ngOnInit() {
+    this._svcClient.getTiposVehiculos().subscribe(resp => {
+      this.tiposVehiculo = resp;
+    });
+
+    this.editSetvalueForm();
+    this.clienteOriginal = { ...this.clientForm.value };
+
     this.myFormValueChanges$ = this.clientForm.controls['idTipoIdentificacion'].valueChanges.subscribe(valor => this.changeValidatorsIdentification(valor));
+
+    this.clientForm.valueChanges.subscribe(() => {
+      this.verificarCambios();
+    });
   }
 
-  private changeValidatorsIdentification(valor: string) {
-    this.validIdentity.setValue(null);
-    //Obtenemos el control ya instanciado en el formulario. 
-    let objetivoControl = this.identificacion;
-    objetivoControl?.setValue(null);
-    objetivoControl?.enable();
-    //Quitamos todas las validaciones del control.
-    objetivoControl?.clearValidators();
+  verificarCambios() {
+    const cambios = JSON.stringify(this.clientForm.value) !== JSON.stringify(this.clienteOriginal);
+    this.cambiosRealizados = cambios;
+  }
 
-    //Agregamos la validacion segun el caso:
-    switch (valor) {
-      case "Cedula":
-        //Se agregan de nuevo todas las validaciones que necesites. 
-        this.clientForm?.removeControl("razon");
-        this.clientForm.addControl("nombres", new FormControl('', [Validators.required, Validators.pattern(this.letterregex), Validators.minLength(3)]));
-        this.clientForm.addControl("apellidos", new FormControl('', [Validators.required, Validators.pattern(this.letterregex), Validators.minLength(3)]));
-        this.minLengtIdentification = 10;
-        this.validatorEcu = cedulaValidation();
-        break;
-      case "RUC":
-        this.clientForm?.removeControl("nombres");
-        this.clientForm?.removeControl("apellidos");
-        this.clientForm.addControl("razon", new FormControl('', [Validators.required, Validators.minLength(3)]));
-        this.minLengtIdentification = 13;
-        this.validatorEcu = rucValidation();
-        break;
+  editSetvalueForm() {
+    if (this.data) {
+      const valueIDE = this.data.identificacion.length == 10 ? 'Cedula' : 'RUC';
+
+      this.clientForm.get('idTipoIdentificacion')?.setValue(valueIDE);
+      this.changeValidatorsIdentification(valueIDE);
+      if (this.data.vehiculos.length > 1) {
+        for (let i = 0; i < this.data.vehiculos.length - 1; i++) {
+          this.addCar();
+        }
+      }
+      this.clientForm.patchValue(this.data);
+      this.checkInvalidDNI();
     }
-
-    objetivoControl?.setValidators([
-      Validators.required,
-      Validators.minLength(this.minLengtIdentification),
-      Validators.pattern("^[0-9]*$"),
-      this.validatorEcu
-    ]);
-
-    //Para evitar problemas con la validacion marcamos el campo con 
-    // dirty, de esta manera se ejecutan de nuevo las validaciones
-    objetivoControl?.markAsDirty()
-    //Recalculamos el estado del campo para que cambie el estado 
-    // del formulario. 
-    objetivoControl?.updateValueAndValidity();
   }
 
-  createForm(client: any): FormGroup {
+  checkInvalidDNI() {
+    if (this.identificacion?.invalid)
+    this.validIdentity.setValue(true);
+    this.identificacion?.removeValidators(this.validatorEcu);
+  }
+
+  createForm(): FormGroup {
     return this.fb.group({
-      id: [null],
+      cliente_id: [null],
       idTipoIdentificacion: [null, [Validators.required]],
-      celular: [null, [Validators.pattern(this.phoneregex)]],
-      correo: [null, [Validators.email, Validators.pattern(this.emailregex)]],
-      identificacion: [{ value: client ? client.identificacion : null, disabled: true }, [Validators.required]],
-      cars: this.fb.array([this.initFormCar()], [Validators.required]),
+      celular: ['', [Validators.pattern(this.phoneregex)]],
+      correo: ['', [Validators.email, Validators.pattern(this.emailregex)]],
+      identificacion: [{ value: null, disabled: true }, [Validators.required]],
+      vehiculos: this.fb.array([this.initFormCar()], [Validators.required]),
     });
   }
 
@@ -101,7 +106,18 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     return new FormGroup({
       id: new FormControl(null),
       idTipoVehiculo: new FormControl('', [Validators.required]),
-      placa: new FormControl('', [Validators.required])
+      placa: new FormControl('',
+        {
+          validators: [
+            Validators.required,
+            Validators.pattern(this.placaregex)
+          ],
+          asyncValidators: [
+            existsPlaqueValidator(this._svcValid)
+          ],
+          updateOn: 'blur',
+        }
+      )
     });
   }
 
@@ -114,24 +130,67 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
 
   addCar() {
-    const cars = this.clientForm.get('cars') as FormArray;
-    cars.push(this.initFormCar());
+    const vehiculos = this.clientForm.get('vehiculos') as FormArray;
+    vehiculos.push(this.initFormCar());
   }
 
   removeCar(i: number) {
-    const cars = this.clientForm.get('cars') as FormArray;
-    cars.removeAt(i);
+    const vehiculos = this.clientForm.get('vehiculos') as FormArray;
+    const refSingle = vehiculos.at(i) as FormGroup;
+
+    if (refSingle.get('id')?.value) {
+      const dialogAlert = this.deleteCar();
+      dialogAlert.afterClosed().subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          vehiculos.removeAt(i);
+        }
+      });
+    } else {
+      vehiculos.removeAt(i);
+    }
   }
 
-  crearNueva(i: number) {
-    const cars = this.clientForm.get('cars') as FormArray;
-    const refSingle = cars.at(i) as FormGroup;
-    refSingle.disable();
+  deleteCar() {
+    const opt: OptionsAlert = {
+      title: '❌ Eliminar Registro ❌',
+      message: '¿Deseas eliminar este vehículo, los cambios se verán reflejados al presionar el botón guardar?'
+    };
+    return this.alert.open(opt);
   }
 
-  habilitarEdicion(i: number) {
-    const cars = this.clientForm.get('cars') as FormArray;
-    cars.at(i).enable();
+  private changeValidatorsIdentification(valor: string) {
+    this.validIdentity.setValue(null);
+    let objetivoControl = this.identificacion;
+    objetivoControl?.setValue(null);
+    objetivoControl?.enable();
+    objetivoControl?.clearValidators();
+
+    switch (valor) {
+      case "Cedula":
+        this.clientForm?.removeControl("razon_social");
+        this.clientForm.addControl("nombres", new FormControl('', [Validators.required, Validators.pattern(this.letterregex), Validators.minLength(3)]));
+        this.clientForm.addControl("apellidos", new FormControl('', [Validators.required, Validators.pattern(this.letterregex), Validators.minLength(3)]));
+        this.minLengtIdentification = 10;
+        this.validatorEcu = cedulaValidation();
+        break;
+      case "RUC":
+        this.clientForm?.removeControl("nombres");
+        this.clientForm?.removeControl("apellidos");
+        this.clientForm.addControl("razon_social", new FormControl('', [Validators.required, Validators.minLength(3)]));
+        this.minLengtIdentification = 13;
+        this.validatorEcu = rucValidation();
+        break;
+    }
+
+    objetivoControl?.setValidators([
+      Validators.required,
+      Validators.minLength(this.minLengtIdentification),
+      Validators.pattern("^[0-9]*$"),
+      this.validatorEcu
+    ]);
+
+    objetivoControl?.markAsDirty()
+    objetivoControl?.updateValueAndValidity();
   }
 
   checkNoValidate(ev: any) {
@@ -151,6 +210,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       console.log(this.clientForm.value);
       this.toast.openSnackBar('Registro guardado con éxito');
+      this.dialogRef.close();
     }, 500);
   }
 
@@ -193,7 +253,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   }
 
   getErrorRazon() {
-    return this.checkErrorForm('razon', 'required')
+    return this.checkErrorForm('razon_social', 'required')
       ? 'El campo Razón Social es requerido'
       : '';
   }

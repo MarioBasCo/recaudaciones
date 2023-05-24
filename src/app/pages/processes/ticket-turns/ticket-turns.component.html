@@ -5,45 +5,39 @@
     </button>
 </subheader>
 
-<div class="w-full flex justify-center mt-6">
-    <div class="w-full md:w-2/3">
-        <form class="flex gap-4 justify-start items-center">
-            <mat-form-field appearance="fill" class="inline">
-                <mat-label>Placa</mat-label>
-                <input matInput />
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="inline">
-                <mat-label>Select</mat-label>
-                <mat-select>
-                    <mat-option value="one">First option</mat-option>
-                    <mat-option value="two">Second option</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div class="mat-form-field inline">
-                <div class="mat-form-field-wrapper flex gap-4">
-                    <mat-radio-group class="flex gap-4" aria-label="Select an option">
-                        <mat-radio-button value="1">Option 1</mat-radio-button>
-                        <mat-radio-button value="2">Option 2</mat-radio-button>
-                    </mat-radio-group>
-                </div>
+<div class="wrapper">
+    <div class="w-full md:w-2/5 flex flex-col justify-between items-center">
+        <div class="flex flex-col justify-between items-center mt-6">
+            <div>
+                <mat-form-field class="mr-2">
+                    <input matInput plaque maxlength="8" [formControl]="plaque" placeholder="Placa">
+                    <button *ngIf="plaqueField" matSuffix mat-icon-button aria-label="Clear" (click)="plaque.setValue('')">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                </mat-form-field>
+                <button mat-mini-fab color="primary" (click)="buscarDatos()"><mat-icon>search</mat-icon></button>
             </div>
-            <mat-form-field appearance="fill" class="inline">
-                <mat-label>Textarea</mat-label>
-                <textarea matInput></textarea>
-            </mat-form-field>
-            <div class="mat-form-field inline">
-                <div class="mat-form-field-wrapper flex gap-4">
-                    <mat-checkbox class="example-margin">Checked</mat-checkbox>
-                    <mat-checkbox class="example-margin">Indeterminate</mat-checkbox>
-                </div>
-            </div>
-            <div class="mat-form-field inline">
-                <div class="mat-form-field-wrapper">
-                    <button mat-raised-button color="primary">
-                        <mat-icon>search</mat-icon> Search
-                    </button>
-                </div>
-            </div>
-        </form>
+        </div>
+
+        <div class="flex flex-col justify-center items-center p-4">
+            <form [formGroup]="readForm">
+                <mat-form-field appearance="outline" class="pt-2 w-full">
+                    <mat-label>Nombre/Razón Social</mat-label>
+                    <input matInput formControlName="nombre">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="pt-2 w-full">
+                    <mat-label>Tipo Vehículo</mat-label>
+                    <input matInput formControlName="tipo">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="pt-2 w-full">
+                    <mat-label>Valor a pagar</mat-label>
+                    <input matInput formControlName="valor">
+                </mat-form-field>
+
+                <button type="submit" mat-raised-button color="primary" [disabled]="readForm.invalid"><mat-icon>save</mat-icon>Guardar</button>
+            </form>
+        </div>
     </div>
 </div>

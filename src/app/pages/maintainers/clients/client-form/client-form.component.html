@@ -24,10 +24,10 @@
                 <mat-checkbox value="1" (change)="checkNoValidate($event)" [formControl]="validIdentity">No Validar Identificación</mat-checkbox>
             </div>
 
-            <div class="flex flex-wrap -mx-3 mb-2" *ngIf="clientForm.get('razon')">
+            <div class="flex flex-wrap -mx-3 mb-2" *ngIf="clientForm.get('razon_social')">
                 <mat-form-field class="w-full px-3" appearance="outline">
                     <mat-label>Razón Social</mat-label>
-                    <input matInput trim formControlName="razon">
+                    <input matInput trim formControlName="razon_social">
                     <mat-error class="-mx-3">{{getErrorRazon()}}</mat-error>
                 </mat-form-field>
             </div>
@@ -67,43 +67,29 @@
                 </button>
             </div>
 
-            <div formArrayName="cars" *ngFor="let car of getCtrl('cars',clientForm)?.controls; index as formChild">
-                <ng-container [formGroupName]="formChild">
+            <div formArrayName="vehiculos" *ngFor="let car of getCtrl('vehiculos',clientForm)?.controls; index as formChild">
+                <ng-container [formGroupName]="formChild"> 
                     <div class="flex flex-wrap -mx-3">
                         <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
                             <mat-label>Tipo de Vehículo</mat-label>
                             <mat-select formControlName="idTipoVehiculo">
-                                <mat-option *ngFor="let framwork of frameworks" [value]="framwork">
-                                    {{ framwork }}
+                                <mat-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">
+                                    {{ tipo.detalle }}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
                             <mat-label>Placa</mat-label>
-                            <input matInput type="text" plaque class="placa" [patterns]="customPatterns" mask="SSS-000"
+                            <input matInput type="text" class="placa" plaque maxlength="8"
                                 formControlName="placa">
                             <!-- <mat-error *ngIf="clientForm.invalid">ERROR</mat-error> -->
                         </mat-form-field>
 
                         <div class="mt-3">
-                            <button type="button" mat-mini-fab color="primary" class="mr-2" [disabled]="car.invalid"
-                                *ngIf="car.enabled" (click)="crearNueva(formChild)">
-                                <mat-icon>check</mat-icon>
-                            </button>
-
-                            <button type="button" mat-mini-fab color="primary" class="mr-2" *ngIf="car.disabled"
-                                (click)="habilitarEdicion(formChild)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-
                             <button type="button" mat-mini-fab color="primary" *ngIf="car.enabled"
                                 (click)="removeCar(formChild)">
                                 <mat-icon>close</mat-icon>
-                            </button>
-
-                            <button type="button" mat-mini-fab color="warn" *ngIf="car.disabled">
-                                <mat-icon>delete</mat-icon>
                             </button>
                         </div>
                     </div>
@@ -114,7 +100,7 @@
     <div mat-dialog-actions class="justify-end">
         <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading"
             color="warn">Cancelar</button>
-        <button mat-raised-button class="min-w-26" [disabled]="isLoading || clientForm.invalid" color="primary"
+        <button mat-raised-button class="min-w-26" [disabled]="isLoading || clientForm.invalid || !cambiosRealizados" color="primary"
             (click)="save()">
             <ng-container *ngIf="isLoading; else elseTemplate">
                 <mat-spinner [diameter]="25"></mat-spinner>

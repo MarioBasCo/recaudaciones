@@ -5,6 +5,8 @@ import { ProcessesRoutingModule } from './processes-routing.module';
 import { CloseTurnsComponent } from './close-turns/close-turns.component';
 import { TicketTurnsComponent } from './ticket-turns/ticket-turns.component';
 import { SubheaderComponent } from 'src/app/components/subheader/subheader.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PlaqueDirective } from 'src/app/shared/directives/plaque.directive';
 
 
 @NgModule({
@@ -14,6 +16,8 @@ import { SubheaderComponent } from 'src/app/components/subheader/subheader.compo
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    PlaqueDirective,
     MaterialModule,
     SubheaderComponent,
     ProcessesRoutingModule
