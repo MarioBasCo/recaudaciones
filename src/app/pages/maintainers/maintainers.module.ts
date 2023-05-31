@@ -25,6 +25,9 @@ import { PlaqueDirective } from 'src/app/shared/directives/plaque.directive';
 import { PhoneDirective } from 'src/app/shared/directives/phone.directive';
 import { RoleFormComponent } from './roles/role-form/role-form.component';
 import { RolesTableComponent } from './roles/roles-table/roles-table.component';
+import { VehicleTypesComponent } from './params/vehicle-types/vehicle-types.component';
+import { TableTypesVehicleComponent } from './params/vehicle-types/table-types-vehicle/table-types-vehicle.component';
+import { FormTypesVehicleComponent } from './params/vehicle-types/form-types-vehicle/form-types-vehicle.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { RolesTableComponent } from './roles/roles-table/roles-table.component';
     UsersTableComponent,
     FormContractComponent,
     RoleFormComponent,
-    RolesTableComponent
+    RolesTableComponent,
+    VehicleTypesComponent,
+    TableTypesVehicleComponent,
+    FormTypesVehicleComponent
   ],
   imports: [
     CommonModule,

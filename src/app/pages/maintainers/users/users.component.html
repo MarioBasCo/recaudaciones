@@ -1,4 +1,4 @@
-<subheader [title]="'Usuarios'">
+<subheader [title]="'Usuarios'" [isLoading]="isLoading">
     <ng-container>
         <button class="mr-2" mat-icon-button color="primary" (click)="refreshData()">
             <mat-icon>refresh</mat-icon>
@@ -14,7 +14,6 @@
     <search (filtrar)="applyFilter($event)"></search>
 
     <div class="mat-elevation-z8">
-        <users-table [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"
-            (editElement)="openDialogUser($event)" (deleteElement)="deleteUser($event)"></users-table>
+        <users-table (editElement)="openDialogUser($event)" (deleteElement)="deleteUser($event)"></users-table>
     </div>
 </div>

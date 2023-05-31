@@ -1,53 +1,88 @@
 <div>
     <h2 mat-dialog-title>Add</h2>
-    <div mat-dialog-content [formGroup]="userForm">
-        
-        <mat-form-field appearance="outline" class="w-full mt-2">
-            <mat-label>Identificación</mat-label>
-            <input matInput type="text" formControlName="identificacion">
-            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
-        </mat-form-field>
+    <form mat-dialog-content [formGroup]="userForm" class="flex flex-wrap">
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Identificación</mat-label>
+                <input matInput onlyNumbers type="tel" formControlName="identificacion" maxlength="10">
+                <mat-error *ngIf="userForm.get('identificacion')?.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Nombres</mat-label>
-            <input matInput type="text" formControlName="primerApellido">
-            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
-        </mat-form-field>
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Nombres</mat-label>
+                <input matInput trim type="text" formControlName="nombres">
+                <mat-error *ngIf="userForm.get('nombres')?.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Apellidos</mat-label>
-            <input matInput type="text" formControlName="segundoApellido">
-            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
-        </mat-form-field>
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Apellidos</mat-label>
+                <input matInput trim type="text" formControlName="apellidos">
+                <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Celular</mat-label>
-            <input matInput type="text" formControlName="usuario">
-            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
-        </mat-form-field>
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Celular</mat-label>
+                <input matInput phone type="tel" formControlName="celular" maxlength="10">
+                <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" appearance="outline" class="w-full">
-            <mat-label>Correo</mat-label>
-            <input matInput type="text" formControlName="email">
-            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
-        </mat-form-field>
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Dirección</mat-label>
+                <input matInput trim type="text" formControlName="direccion">
+                <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Usuario</mat-label>
-            <input matInput type="text" formControlName="usuario">
-            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
-        </mat-form-field>
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" appearance="outline" class="w-full">
+                <mat-label>Correo</mat-label>
+                <input matInput type="text" formControlName="email">
+                <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Contraseña</mat-label>
-            <input matInput type="password" formControlName="password">
-            <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
-        </mat-form-field>
-    </div>
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Usuario</mat-label>
+                <input matInput trim type="text" formControlName="name" autocomplete="username">
+                <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Rol</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option *ngFor="let rol of roles" [value]="rol.name">
+                        {{ rol.name | uppercase }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="w-full md:w-1/2 lg:w-1/2 p-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label for="password">Contraseña</mat-label>
+                <input matInput type="password" id="password" formControlName="password" autocomplete="current-password">
+                <mat-error *ngIf="userForm.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+        </div>
+
+    </form>
+
     <div mat-dialog-actions class="justify-end">
         <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading"
             color="warn">Cancelar</button>
-        <button mat-raised-button class="min-w-26" [disabled]="isLoading || userForm.invalid" color="primary" (click)="save()">
+        <button mat-raised-button class="min-w-26" [disabled]="isLoading || userForm.invalid" color="primary"
+            (click)="save()">
             <ng-container *ngIf="isLoading; else elseTemplate">
                 <mat-spinner [diameter]="25"></mat-spinner>
             </ng-container>

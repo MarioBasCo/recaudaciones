@@ -14,6 +14,7 @@ import { RoleService } from './role.service';
 export class RolesComponent {
   displayedColumns = ['id', 'name', 'progress', 'color', 'actions'];
   dataSource: MatTableDataSource<UserData>;
+  public isLoading: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -28,10 +29,18 @@ export class RolesComponent {
   }
 
   ngOnInit(){
+    this.loadData();
+  }
+
+  loadData() {
+    this.isLoading = true;
+
     this._svcRole.getRoles().subscribe(resp => {
+      this.isLoading = false;
       console.log(resp);
     });
   }
+
 
   /**
    * Set the paginator and sort after the view init since this component will
