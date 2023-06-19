@@ -1,4 +1,4 @@
-<mat-form-field appearance="fill">
+<!-- <mat-form-field appearance="fill">
     <mat-label>Ingrese un rango de fechas</mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input matStartDate placeholder="Start date">
@@ -6,4 +6,15 @@
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
+</mat-form-field> -->
+
+<mat-form-field appearance="fill" [formGroup]="dateForm">
+  <mat-label>Ingrese un rango de fechas</mat-label>
+  <mat-date-range-input [rangePicker]="picker">
+    <input matStartDate placeholder="Start date" formControlName="startDate">
+    <input matEndDate placeholder="End date" formControlName="endDate">
+  </mat-date-range-input>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker></mat-date-range-picker>
 </mat-form-field>
+

@@ -12,13 +12,13 @@ export class RoleFormComponent {
   public title: string;
   public isLoading: boolean = false;
 
-    constructor( 
-      @Inject(MAT_DIALOG_DATA) public data: any, 
-      private fb: FormBuilder,
-      public dialogRef: MatDialogRef<RoleFormComponent>){
-      this.roleForm = this.createForm(data);
-      this.title = this.data ? 'Editar' : 'Nuevo';
-    }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<RoleFormComponent>) {
+    this.roleForm = this.createForm(data);
+    this.title = this.data ? 'Editar' : 'Nuevo';
+  }
 
   createForm(role: any): FormGroup {
     return this.fb.group({

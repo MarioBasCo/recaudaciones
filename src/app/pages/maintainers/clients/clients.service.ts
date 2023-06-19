@@ -15,17 +15,42 @@ export class ClientsService {
 
   constructor(private http: HttpClient) { }
 
-  getClients(){
+  getClients() {
     const url = `${this.baseUrl}/clientes`;
     return this.http.get<any>(url);
   }
 
-  getTiposVehiculos(){
-    const url =  `${this.baseUrl}/tiposvehiculos`;
+  saveClient(data: any) {
+    const url = `${this.baseUrl}/clientes`;
+    return this.http.post<any>(url, data);
+  }
+
+  updateClient(id: number, data: any) {
+    const url = `${this.baseUrl}/clientes/${id}`;
+    return this.http.put<any>(url, data);
+  }
+
+  getTiposVehiculos() {
+    const url = `${this.baseUrl}/tiposvehiculos`;
     return this.http.get<any>(url);
   }
 
-  sharedList(list: Client[]){
+  sharedList(list: Client[]) {
     this.listaClienteSubject.next(list);
+  }
+  /*
+  Route::post('clientes/{cliente}/vehiculos', [VehiculoController::class, 'asignarVehiculo']);
+Route::put('clientes/{cliente}/vehiculos/{vehiculo}', [VehiculoController::class, 'editarVehiculo']);
+Route::delete('clientes/{cliente}/vehiculos/{vehiculo}', [VehiculoController::class, 'eliminarVehiculo']);
+  */
+
+  asignarVehiculo(id: number, data: any){
+    const url = `${this.baseUrl}/clientes/${id}/vehiculos`;
+    return this.http.post<any>(url, data);
+  }
+
+  updateVehiculo(id: number, data: any){
+    const url = `${this.baseUrl}/clientes/${id}/vehiculos/${data.id}`;
+    return this.http.put<any>(url, data);
   }
 }

@@ -162,7 +162,7 @@ export class DashboardComponent implements OnInit {
           offsetCenter: [0, '35%'],
           valueAnimation: true,
           formatter: function (value: any) {
-            return '{value|' + value.toFixed(0) + '}{unit|km/h}';
+            return '{value|' + value.toFixed(0) + '}{unit|USD}';
           },
           rich: {
             value: {

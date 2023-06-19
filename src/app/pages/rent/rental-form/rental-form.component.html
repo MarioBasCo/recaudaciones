@@ -1,0 +1,74 @@
+<ng-container>
+    <h2 mat-dialog-title>hola</h2>
+    <div class="p-6 space-y-6">
+        <form [formGroup]="rentalForm" class="space-y-4">
+            <div>
+                <div class="flex items-center">
+                    <mat-form-field appearance="outline" class="flex-grow">
+                        <mat-label>Identificación</mat-label>
+                        <input matInput formControlName="identification" class="w-full">
+                    </mat-form-field>
+                    <button style="margin-top: -20px;" mat-mini-fab color="primary" type="button" (click)="loadData()" class="ml-4">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="!isDataLoaded">
+                <div class=" grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Nombres</mat-label>
+                        <input matInput formControlName="firstName">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Apellidos</mat-label>
+                        <input matInput formControlName="lastName">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Correo</mat-label>
+                        <input matInput formControlName="email">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Dirección</mat-label>
+                        <input matInput formControlName="address">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Teléfono</mat-label>
+                        <input matInput formControlName="phone">
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Local</mat-label>
+                <mat-select formControlName="location" class="w-full">
+                    <mat-option *ngFor="let location of locations" [value]="location">{{ location }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Valor de Arriendo</mat-label>
+                <input matInput formControlName="rentValue" class="w-full">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Meses de Arriendo</mat-label>
+                <input matInput formControlName="rentMonths" class="w-full">
+            </mat-form-field>
+
+            <div class="flex justify-end">
+                <button mat-raised-button color="primary" class="px-8 py-2 bg-red-500 text-white rounded-md mr-2" [mat-dialog-close]="false">
+                    Cerrar
+                </button>
+                <button mat-raised-button color="primary" class="px-8 py-2 bg-blue-500 text-white rounded-md" (click)="save()">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-container>

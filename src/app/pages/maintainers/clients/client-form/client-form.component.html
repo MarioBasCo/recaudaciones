@@ -1,113 +1,20 @@
 <ng-container>
-    <h2 mat-dialog-title>{{title}}</h2>
-    <div mat-dialog-content class="flex flex-col" [formGroup]="clientForm">
-        <form class="w-full mt-2">
-            <div class="flex flex-wrap -mx-3 mb-2">
-                <mat-form-field appearance="outline" class="w-full md:w-1/2 px-3 md:mb-0">
-                    <mat-label>Tipo Identificación</mat-label>
-                    <mat-select formControlName="idTipoIdentificacion">
-                        <mat-option *ngFor="let framwork of optDNI" [value]="framwork">
-                            {{ framwork }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error class="-mx-3">{{getErrorTipoIdentificacion()}}</mat-error>
-                </mat-form-field>
-
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Identificación</mat-label>
-                    <input matInput onlyNumbers formControlName="identificacion" [maxlength]="minLengtIdentification">
-                    <mat-error class="-mx-3">{{getErrorIdentificacion()}}</mat-error>
-                </mat-form-field>
-            </div>
-
-            <div class="flex flex-wrap justify-end px-3 -mx-3 mb-2" *ngIf="!identificacion?.disabled">
-                <mat-checkbox value="1" (change)="checkNoValidate($event)" [formControl]="validIdentity">No Validar Identificación</mat-checkbox>
-            </div>
-
-            <div class="flex flex-wrap -mx-3 mb-2" *ngIf="clientForm.get('razon_social')">
-                <mat-form-field class="w-full px-3" appearance="outline">
-                    <mat-label>Razón Social</mat-label>
-                    <input matInput trim formControlName="razon_social">
-                    <mat-error class="-mx-3">{{getErrorRazon()}}</mat-error>
-                </mat-form-field>
-            </div>
-
-            <div class="flex flex-wrap -mx-3 mb-2" *ngIf="clientForm.get('nombres') && clientForm.get('apellidos')">
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Nombres</mat-label>
-                    <input matInput trim type="text" formControlName="nombres">
-                    <mat-error class="-mx-3">{{getErrorNombres()}}</mat-error>
-                </mat-form-field>
-
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Apellidos</mat-label>
-                    <input matInput trim type="text" formControlName="apellidos">
-                    <mat-error class="-mx-3">{{getErrorApellidos()}}</mat-error>
-                </mat-form-field>
-            </div>
-
-            <div class="flex flex-wrap -mx-3 mb-2">
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Celular</mat-label>
-                    <input matInput phone type="tel" formControlName="celular" maxlength="10">
-                    <mat-error class="-mx-3">{{getErrorCelular()}}</mat-error>
-                </mat-form-field>
-
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Correo</mat-label>
-                    <input matInput disallow-spaces type="email" formControlName="correo">
-                    <mat-error class="-mx-3">{{getErrorCorreo()}}</mat-error>
-                </mat-form-field>
-            </div>
-
-            <div class="flex flex-shrink-0 justify-end items-center mb-4 sm:mt-0 sm:ml-4">
-                <button mat-flat-button [color]="'primary'" type="button" (click)="addCar()">
-                    <mat-icon>add</mat-icon>
-                    <span class="ml-2 mr-1">Vehículo</span>
-                </button>
-            </div>
-
-            <div formArrayName="vehiculos" *ngFor="let car of getCtrl('vehiculos',clientForm)?.controls; index as formChild">
-                <ng-container [formGroupName]="formChild"> 
-                    <div class="flex flex-wrap -mx-3">
-                        <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
-                            <mat-label>Tipo de Vehículo</mat-label>
-                            <mat-select formControlName="idTipoVehiculo">
-                                <mat-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">
-                                    {{ tipo.detalle }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
-                            <mat-label>Placa</mat-label>
-                            <input matInput type="text" class="placa" plaque maxlength="8"
-                                formControlName="placa">
-                            <!-- <mat-error *ngIf="clientForm.invalid">ERROR</mat-error> -->
-                        </mat-form-field>
-
-                        <div class="mt-3">
-                            <button type="button" mat-mini-fab color="primary" *ngIf="car.enabled"
-                                (click)="removeCar(formChild)">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-                </ng-container>
-            </div>
-        </form>
-    </div>
-    <div mat-dialog-actions class="justify-end">
-        <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading"
-            color="warn">Cancelar</button>
-        <button mat-raised-button class="min-w-26" [disabled]="isLoading || clientForm.invalid || !cambiosRealizados" color="primary"
-            (click)="save()">
-            <ng-container *ngIf="isLoading; else elseTemplate">
-                <mat-spinner [diameter]="25"></mat-spinner>
-            </ng-container>
-            <ng-template #elseTemplate>
-                Guardar
-            </ng-template>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h2 mat-dialog-title style="flex-wrap: wrap">{{title}}</h2>
+        <button mat-icon-button color="warn" class="mr-2" [mat-dialog-close]="true">
+            <mat-icon>close</mat-icon>
         </button>
+    </div>
+
+    <div mat-dialog-content>
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="selectedTabIndex">
+            <mat-tab label="Cliente">
+                <app-personal-form [info]="data" (onCar)="changeStatus($event)"
+                    (nuevoReg)="reemitirId($event)"></app-personal-form>
+            </mat-tab>
+            <mat-tab label="Vehículos" [disabled]="disabledCard">
+                <app-vehicles-form [info]="data" [clientId]="idNewRegistro"></app-vehicles-form>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 </ng-container>

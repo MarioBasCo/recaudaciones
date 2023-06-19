@@ -28,6 +28,8 @@ import { RolesTableComponent } from './roles/roles-table/roles-table.component';
 import { VehicleTypesComponent } from './params/vehicle-types/vehicle-types.component';
 import { TableTypesVehicleComponent } from './params/vehicle-types/table-types-vehicle/table-types-vehicle.component';
 import { FormTypesVehicleComponent } from './params/vehicle-types/form-types-vehicle/form-types-vehicle.component';
+import { PersonalFormComponent } from './clients/client-form/personal-form/personal-form.component';
+import { VehiclesFormComponent } from './clients/client-form/vehicles-form/vehicles-form.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { FormTypesVehicleComponent } from './params/vehicle-types/form-types-veh
     RolesTableComponent,
     VehicleTypesComponent,
     TableTypesVehicleComponent,
-    FormTypesVehicleComponent
+    FormTypesVehicleComponent,
+    PersonalFormComponent,
+    VehiclesFormComponent
   ],
   imports: [
     CommonModule,

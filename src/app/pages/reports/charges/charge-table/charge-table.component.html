@@ -1,24 +1,16 @@
 <div class="example-container mat-elevation-z8">
     <table mat-table #table [dataSource]="dataSource">
-
-        <ng-container matColumnDef="user">
-            <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                {{element.user}}
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="position">
+        <ng-container matColumnDef="detalle">
             <mat-header-cell *matHeaderCellDef> Tipo Vehículo. </mat-header-cell>
             <mat-cell *matCellDef="let element">
-                {{element.position}}
+                {{element.detalle}}
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="monto">
+        <ng-container matColumnDef="suma_total">
             <mat-header-cell *matHeaderCellDef> Monto </mat-header-cell>
             <mat-cell *matCellDef="let element">
-                {{element.monto}}
+                $ {{element.suma_total}}
             </mat-cell>
         </ng-container>
 

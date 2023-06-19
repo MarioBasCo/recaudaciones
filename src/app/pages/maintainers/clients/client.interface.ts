@@ -1,7 +1,7 @@
 export interface Client {
     cliente_id: number;
     identificacion: string;
-    vehiculos: Vehiculo[];
+    vehiculos?: Vehiculo[];
     nombres?: string;
     apellidos?: string;
     razon_social?: string;

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { ReportsRoutingModule } from './reports-routing.module';
 import { RecordChargesComponent } from './record-charges/record-charges.component';
@@ -28,5 +28,6 @@ import { ShopChargesComponent } from './shop-charges/shop-charges.component';
     NgApexchartsModule,
     BackgroundComponent
   ],
+  providers: [DatePipe]
 })
 export class ReportsModule { }

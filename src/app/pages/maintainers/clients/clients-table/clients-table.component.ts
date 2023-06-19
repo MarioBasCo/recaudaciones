@@ -41,7 +41,7 @@ export class ClientsTableComponent {
     {
       columnDef: 'vehiculos',
       header: '# Vehiculos',
-      cell: (element: Client) => `${element.vehiculos.length}`,
+      cell: (element: Client) => `${element?.vehiculos?.length ?? 0}`,
     },
   ];
   dataSource!: MatTableDataSource<any>;

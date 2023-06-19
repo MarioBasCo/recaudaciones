@@ -1,0 +1,75 @@
+<form [formGroup]="vehicleForm">
+    <div class="flex flex-shrink-0 justify-end items-center mb-4 sm:mt-0 sm:ml-4">
+        <button mat-flat-button [color]="'primary'" type="button" (click)="addVehicle()">
+            <mat-icon>add</mat-icon>
+            <span class="ml-2 mr-1">Vehículo</span>
+        </button>
+    </div>
+
+    <div formArrayName="vehiculos">
+        <div *ngFor="let vehicle of vehiculos; let i = index">
+            <ng-container [formGroupName]="i">
+                <div class="flex flex-wrap">
+                    <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
+                        <mat-label>Tipo de Vehículo</mat-label>
+                        <mat-select formControlName="idTipoVehiculo">
+                            <mat-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">
+                                {{ tipo.detalle }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error class="-mx-4" *ngIf="vehicle.get('idTipoVehiculo')?.hasError('required')">
+                            El tipo es requerido
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full md:w-2/5 px-3 mr-3 py-1 px-2">
+                        <mat-label>Placa</mat-label>
+                        <input matInput type="text" class="placa" plaque maxlength="8" formControlName="placa">
+                        <mat-error class="-mx-4" *ngIf="vehicle.get('placa')?.hasError('required')">
+                            La Placa es requerida
+                        </mat-error>
+                        <mat-error class="-mx-4" *ngIf="vehicle.get('placa')?.hasError('pattern')">
+                            La Placa no tiene un formato válido
+                        </mat-error>
+                        <mat-error class="-mx-4" *ngIf="vehicle.get('placa')?.hasError('recordExists')">
+                            La Placa está en uso
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="mt-3">
+                        <button type="button" mat-mini-fab color="primary" class="mr-2" [disabled]="vehicle.disabled"
+                            *ngIf="!vehicle.get('id')?.value" [disabled]="vehicle.invalid" (click)="saveVehicle(i)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+
+                        <button type="button" mat-mini-fab color="primary" *ngIf="!vehicle.get('id')?.value"
+                            (click)="removeVehicle(i)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                        <button type="button" mat-mini-fab color="primary" class="mr-2" *ngIf="vehicle.disabled" [disabled]="!vehicle.get('editing')?.value"
+                            (click)="enableEditing(i)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <button type="button" mat-mini-fab color="primary" class="mr-2"
+                            *ngIf="vehicle.enabled && vehicle.get('id')?.value" [disabled]="!hasChanges(vehicle) || vehicle.invalid"
+                            (click)="updateVehicle(i)">
+                            <mat-icon>save</mat-icon>
+                        </button>
+
+                        <button type="button" mat-mini-fab color="warn"
+                            *ngIf="vehicle.enabled && vehicle.get('id')?.value" (click)="cancelEditing(i)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+
+                        <button type="button" mat-mini-fab color="warn"
+                            *ngIf="vehicle.disabled && vehicle.get('id')?.value" (click)="deleteVehicle(i)" [disabled]="!vehicle.get('editing')?.value">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</form>
