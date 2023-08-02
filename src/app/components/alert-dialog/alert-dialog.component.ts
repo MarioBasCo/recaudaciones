@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 export interface OptionsAlert {
   title: string;
   message: string;
+  note?: string;
   buttonText?: ButtonText;
 }
 
@@ -24,6 +25,7 @@ interface ButtonText {
 export class AlertDialogComponent {
   title: string = "";
   message: string = "";
+  note: string = "";
   confirmButtonText: string = "Sí";
   cancelButtonText: string = "Cancelar";
 
@@ -34,6 +36,7 @@ export class AlertDialogComponent {
     if(data){
       this.title = data.title;
       this.message = data.message;
+      this.note = data.note || '';
       if (data.buttonText) {
         this.confirmButtonText = data.buttonText.confirmButtonText || this.confirmButtonText;
         this.cancelButtonText = data.buttonText.cancelButtonText || this.cancelButtonText;

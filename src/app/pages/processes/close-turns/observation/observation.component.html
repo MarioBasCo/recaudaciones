@@ -1,0 +1,21 @@
+<ng-container>
+    <h2 mat-dialog-title>Cierre de Turno</h2>
+    <div mat-dialog-content class="flex flex-col pt-3">
+        <mat-form-field appearance="outline">
+            <mat-label>Observación</mat-label>
+            <textarea matInput placeholder="Novedades..." [formControl]="observacion"></textarea>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="justify-end">
+        <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading"
+            color="warn">Cancelar</button>
+        <button mat-raised-button class="min-w-26" [disabled]="isLoading" color="primary" (click)="save()">
+            <ng-container *ngIf="isLoading; else elseTemplate">
+                <mat-spinner [diameter]="25"></mat-spinner>
+            </ng-container>
+            <ng-template #elseTemplate>
+                Guardar
+            </ng-template>
+        </button>
+    </div>
+</ng-container>

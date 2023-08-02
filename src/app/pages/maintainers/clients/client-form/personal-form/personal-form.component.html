@@ -1,0 +1,69 @@
+<form class="mt-6" [formGroup]="clientForm">
+    <div class="flex flex-wrap -mx-0 mb-2">
+        <mat-form-field appearance="outline" class="w-full md:w-1/2 px-3 md:mb-0">
+            <mat-label>Tipo Identificación</mat-label>
+            <mat-select formControlName="idTipoIdentificacion">
+                <mat-option *ngFor="let framwork of optDNI" [value]="framwork">
+                    {{ framwork }}
+                </mat-option>
+            </mat-select>
+            <mat-error class="-mx-3">{{getErrorTipoIdentificacion()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+            <mat-label>Identificación</mat-label>
+            <input matInput onlyNumbers formControlName="identificacion" [maxlength]="minLengtIdentification">
+            <mat-error class="-mx-3">{{getErrorIdentificacion()}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="flex flex-wrap justify-end px-3 -mx-0 mb-2" *ngIf="!identificacion?.disabled">
+        <mat-checkbox value="1" (change)="checkNoValidate($event)" [formControl]="validIdentity">No Validar
+            Identificación</mat-checkbox>
+    </div>
+
+    <div class="flex flex-wrap -mx-0 mb-2" *ngIf="clientForm.get('razon_social')">
+        <mat-form-field class="w-full px-3" appearance="outline">
+            <mat-label>Razón Social</mat-label>
+            <input matInput trim formControlName="razon_social">
+            <mat-error class="-mx-3">{{getErrorRazon()}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="flex flex-wrap -mx-0 mb-2" *ngIf="clientForm.get('nombres') && clientForm.get('apellidos')">
+        <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+            <mat-label>Nombres</mat-label>
+            <input matInput trim type="text" formControlName="nombres">
+            <mat-error class="-mx-3">{{getErrorNombres()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+            <mat-label>Apellidos</mat-label>
+            <input matInput trim type="text" formControlName="apellidos">
+            <mat-error class="-mx-3">{{getErrorApellidos()}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="flex flex-wrap -mx-0 mb-2">
+        <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+            <mat-label>Celular</mat-label>
+            <input matInput phone type="tel" formControlName="celular" maxlength="10">
+            <mat-error class="-mx-3">{{getErrorCelular()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
+            <mat-label>Correo</mat-label>
+            <input matInput disallow-spaces type="email" formControlName="correo">
+            <mat-error class="-mx-3">{{getErrorCorreo()}}</mat-error>
+        </mat-form-field>
+    </div>
+    <button mat-raised-button class="min-w-26 mx-3" [disabled]="isLoading || clientForm.invalid || !cambiosRealizados"
+        color="primary" (click)="onSaveClient()">
+        <ng-container *ngIf="isLoading; else elseTemplate">
+            <mat-spinner [diameter]="25"></mat-spinner>
+        </ng-container>
+        <ng-template #elseTemplate>
+            {{btnText}}
+        </ng-template>
+    </button>
+</form>

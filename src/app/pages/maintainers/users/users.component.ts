@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserFormComponent } from './user-form/user-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from './user.service';
+import { UsersTableComponent } from './users-table/users-table.component';
+import { OptionsAlert } from 'src/app/components/alert-dialog/alert-dialog.component';
+import { AlertService } from 'src/app/shared/services/alert.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -9,74 +14,68 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  displayedColumns: string[] = [ 'cedula', 'nombres', 'apellidos', 'usuario', 'rol', 'actions'];
-  columns = [
-    {
-      columnDef: 'cedula',
-      header: 'Identificación',
-      cell: (element: any) => `${element.identificacion}`,
-    },
-    {
-      columnDef: 'nombres',
-      header: 'Nombres',
-      cell: (element: any) => `${element.nombres}`,
-    },
-    {
-      columnDef: 'apellidos',
-      header: 'Apellidos',
-      cell: (element: any) => `${element.apellidos}`,
-    },
-    {
-      columnDef: 'usuario',
-      header: 'Usuario',
-      cell: (element: any) => `${element.usuario}`,
-    },
-    {
-      columnDef: 'rol',
-      header: 'Rol',
-      cell: (element: any) => `${element.rol}`,
-    },
-  ];
+  public isLoading: boolean = false;
+  @ViewChild(UsersTableComponent) tablaComponent!: UsersTableComponent;
+  
+  constructor(
+    public dialog: MatDialog, 
+    private _svcUser: UserService,
+    private toast: ToastService,
+    private alert: AlertService) {
 
-  dataSource: MatTableDataSource<any> = new MatTableDataSource([
-    { 
-      identificacion: '0928381839',
-      nombres: 'Mario',
-      apellidos: 'Basilio',
-      usuario: 'mbasilio',
-      rol: 'Administrador'
-    },
-  ]);
+  }
 
-  constructor(public dialog: MatDialog) {
+  ngOnInit(){
+    this.loadData();    
+  }
 
+  loadData(){
+    this.isLoading = true;
+    this._svcUser.getUsers().subscribe(resp => {
+      this.isLoading = false;
+      this._svcUser.sharedList(resp);
+    });
   }
 
   openDialogUser(user: any = null) {
     const dialogRef = this.dialog.open(UserFormComponent, {
       data: user,
-      width: '450px',
+      width: '640px',
       minWidth: 'auto'
     });
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-
+        this.loadData();
       }
     });
   }
 
   refreshData(){
-
+    this.loadData();
   }
 
   applyFilter(filterValue: string){
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+    this.tablaComponent.applyFilter(filterValue);
   }
 
   deleteUser(event: any){
+    const opt: OptionsAlert = {
+      title: '❌ Eliminar Registro',
+      message: '¿Deseas eliminar este registro?'
+    };
+    const dialogAlert = this.alert.open(opt);
 
+    dialogAlert.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        let id = event.id;
+        this._svcUser.eliminarUser(id).subscribe(resp => {
+          if(resp.message){
+            this.toast.openSnackBar(resp.message);
+            this.loadData();
+          }
+        });
+      }
+    });
   }
 }

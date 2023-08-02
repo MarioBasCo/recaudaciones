@@ -7,11 +7,11 @@
 </mat-nav-list>
 
 <ng-template #parentMenu let-menu="menu">
-    <mat-list-item [routerLink]="menu.routerLink" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
+    <mat-list-item [routerLink]="menu.url" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
         true}">
         <div class="item">
             <mat-icon>{{menu.icon}}</mat-icon>
-            <span>{{menu.text}}</span>
+            <span>{{menu.title}}</span>
         </div>
     </mat-list-item>
 </ng-template>
@@ -20,15 +20,15 @@
     <mat-expansion-panel [class.mat-elevation-z0]="true" [expanded]="isContain(menu)">
         <mat-expansion-panel-header>
             <mat-icon mat-list-icon>{{menu.icon}}</mat-icon>
-            <span>{{menu.text}}</span>
+            <span>{{menu.title}}</span>
         </mat-expansion-panel-header>
         <mat-nav-list>
-            <mat-list-item [routerLink]="submenu.routerLink" *ngFor="let submenu of menu.children"
+            <mat-list-item [routerLink]="submenu.url" *ngFor="let submenu of menu.children"
                 routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
                 true}">
                 <div class="item-sub">
                     <mat-icon>{{submenu.icon}}</mat-icon>
-                    <span>{{submenu.text}}</span>
+                    <span>{{submenu.title}}</span>
                 </div>
             </mat-list-item>
         </mat-nav-list>

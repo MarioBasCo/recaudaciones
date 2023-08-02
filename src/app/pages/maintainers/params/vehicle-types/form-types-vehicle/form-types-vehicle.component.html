@@ -1,0 +1,27 @@
+<ng-container>
+    <h2 mat-dialog-title>{{title}}</h2>
+    <div mat-dialog-content class="flex flex-col pt-3" [formGroup]="typeForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Detalle</mat-label>
+            <input matInput type="text" formControlName="detalle">
+            <mat-error *ngIf="detalle?.hasError('required')">El detalle es requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="pt-2">
+            <mat-label>Valor</mat-label>
+            <input matInput type="number" formControlName="valor">
+            <mat-error *ngIf="valor?.hasError('required')">El valor es requerido</mat-error>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="justify-end">
+        <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" color="warn">Cancelar</button>
+        <button mat-raised-button class="min-w-26" [disabled]="isLoading || typeForm.invalid" color="primary"
+            (click)="save()">
+            <ng-container *ngIf="isLoading; else elseTemplate">
+                <mat-spinner [diameter]="25"></mat-spinner>
+            </ng-container>
+            <ng-template #elseTemplate>
+                Guardar
+            </ng-template>
+        </button>
+    </div>
+</ng-container>

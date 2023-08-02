@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { MaintainersRoutingModule } from './maintainers-routing.module';
 import { ClientsComponent } from './clients/clients.component';
@@ -8,7 +8,6 @@ import { ParamsComponent } from './params/params.component';
 import { RolesComponent } from './roles/roles.component';
 import { UsersComponent } from './users/users.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
-import { ModalAddRoleComponent } from './roles/modal-add-role/modal-add-role.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserFormComponent } from './users/user-form/user-form.component';
 import { ClientsTableComponent } from './clients/clients-table/clients-table.component';
@@ -24,6 +23,13 @@ import { DisallowSpacesDirective } from 'src/app/shared/directives/disallow-spac
 import { OnlyNumbersDirective } from 'src/app/shared/directives/only-numbers.directive';
 import { PlaqueDirective } from 'src/app/shared/directives/plaque.directive';
 import { PhoneDirective } from 'src/app/shared/directives/phone.directive';
+import { RoleFormComponent } from './roles/role-form/role-form.component';
+import { RolesTableComponent } from './roles/roles-table/roles-table.component';
+import { VehicleTypesComponent } from './params/vehicle-types/vehicle-types.component';
+import { TableTypesVehicleComponent } from './params/vehicle-types/table-types-vehicle/table-types-vehicle.component';
+import { FormTypesVehicleComponent } from './params/vehicle-types/form-types-vehicle/form-types-vehicle.component';
+import { PersonalFormComponent } from './clients/client-form/personal-form/personal-form.component';
+import { VehiclesFormComponent } from './clients/client-form/vehicles-form/vehicles-form.component';
 
 @NgModule({
   declarations: [
@@ -32,12 +38,18 @@ import { PhoneDirective } from 'src/app/shared/directives/phone.directive';
     ParamsComponent,
     RolesComponent,
     UsersComponent,
-    ModalAddRoleComponent,
     UserFormComponent,
     ClientsTableComponent,
     ClientFormComponent,
     UsersTableComponent,
-    FormContractComponent
+    FormContractComponent,
+    RoleFormComponent,
+    RolesTableComponent,
+    VehicleTypesComponent,
+    TableTypesVehicleComponent,
+    FormTypesVehicleComponent,
+    PersonalFormComponent,
+    VehiclesFormComponent
   ],
   imports: [
     CommonModule,
@@ -53,10 +65,11 @@ import { PhoneDirective } from 'src/app/shared/directives/phone.directive';
     DisallowSpacesDirective,
     OnlyNumbersDirective,
     PhoneDirective,
-    PlaqueDirective
+    PlaqueDirective,
   ],
   providers: [
-    provideNgxMask()
+    provideNgxMask(),
+    DatePipe
   ],
 })
 export class MaintainersModule { }

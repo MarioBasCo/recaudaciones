@@ -14,19 +14,19 @@ const routes: Routes = [
   },
   {
     path: 'clients',
-    component: ClientsComponent
+    component: ClientsComponent,
   },
   {
     path: 'users',
-    component: UsersComponent
+    component: UsersComponent,
   },
   {
     path: 'roles',
-    component: RolesComponent
+    component: RolesComponent,
   },
   {
     path: 'contracts',
-    component: ContractsComponent
+    component: ContractsComponent,
   },
   {
     path: 'params',

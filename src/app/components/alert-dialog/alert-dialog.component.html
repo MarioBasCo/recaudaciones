@@ -1,6 +1,7 @@
-<h1 mat-dialog-title>{{title}}</h1>
+<h1 mat-dialog-title class="text-center">{{title}}</h1>
 <div mat-dialog-content>
     <p>{{message}}</p>
+    <p><small>{{note}}</small></p>
 </div>
 <div mat-dialog-actions align="end">
     <button mat-button (click)="onCancelClick()">{{cancelButtonText}}</button>

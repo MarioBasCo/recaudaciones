@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { EChartsOption } from 'echarts';
+import { DashboardService } from './dashboard.service';
 
 export interface IGrid {
   columns: number,
@@ -21,7 +22,9 @@ export interface IGridChild {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  
+  recaudacionMensual: number = 0;
+  recaudacionPorTipoVehiculo: any[]=[];
+
   readonly breakpoint$ = this.breakpointObserver
   .observe( [
     Breakpoints.XSmall,
@@ -37,156 +40,15 @@ export class DashboardComponent implements OnInit {
   cols: any;
   colsChart: any;
 
-  miniCards: any[] = [
-    {
-      textValue: 'Clientes',
-      value: 45,
-      icon: 'people',
-      color: '#6737B8'
-    },
-    {
-      textValue: 'Usuarios',
-      value: 4,
-      icon: 'business_center',
-      color: '#FFD635'
-    },
-    {
-      textValue: 'Locales Pendientes de cobro',
-      value: 3,
-      icon: 'local_convenience_store',
-      color: '#F44133'
-    },
-    {
-      textValue: 'Recaudación Mensual',
-      value: 40,
-      icon: 'attach_money',
-      color: '#6737B8'
-    }
-  ]
+  miniCards: any[] = []
 
-  option: EChartsOption = {
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      orient: 'vertical',
-      left: 'left'
-    },
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: '50%',
-        data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' }
-        ],
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        }
-      }
-    ]
-  };
+  option!: EChartsOption;
+  chartOption!: EChartsOption;
 
-
-  chartOption: EChartsOption = {
-    series: [
-      {
-        type: 'gauge',
-        startAngle: 180,
-        endAngle: 0,
-        min: 0,
-        max: 240,
-        splitNumber: 12,
-        itemStyle: {
-          color: '#58D9F9',
-          shadowColor: 'rgba(0,138,255,0.45)',
-          shadowBlur: 10,
-          shadowOffsetX: 2,
-          shadowOffsetY: 2
-        },
-        progress: {
-          show: true,
-          roundCap: true,
-          width: 5
-        },
-        pointer: {
-          icon: 'path://M2090.36389,615.30999 L2090.36389,615.30999 C2091.48372,615.30999 2092.40383,616.194028 2092.44859,617.312956 L2096.90698,728.755929 C2097.05155,732.369577 2094.2393,735.416212 2090.62566,735.56078 C2090.53845,735.564269 2090.45117,735.566014 2090.36389,735.566014 L2090.36389,735.566014 C2086.74736,735.566014 2083.81557,732.63423 2083.81557,729.017692 C2083.81557,728.930412 2083.81732,728.84314 2083.82081,728.755929 L2088.2792,617.312956 C2088.32396,616.194028 2089.24407,615.30999 2090.36389,615.30999 Z',
-          length: '75%',
-          width: 16,
-          offsetCenter: [0, '5%']
-        },
-        axisLine: {
-          roundCap: true,
-          lineStyle: {
-            width: 18
-          }
-        },
-        axisTick: {
-          splitNumber: 2,
-          lineStyle: {
-            width: 2,
-            color: '#999'
-          }
-        },
-        splitLine: {
-          length: 12,
-          lineStyle: {
-            width: 3,
-            color: '#999'
-          }
-        },
-        axisLabel: {
-          distance: 30,
-          color: '#999',
-          fontSize: 10
-        },
-        title: {
-          show: false
-        },
-        detail: {
-          backgroundColor: '#fff',
-          borderColor: '#999',
-          borderWidth: 2,
-          width: '60%',
-          lineHeight: 40,
-          height: 40,
-          borderRadius: 8,
-          offsetCenter: [0, '35%'],
-          valueAnimation: true,
-          formatter: function (value: any) {
-            return '{value|' + value.toFixed(0) + '}{unit|km/h}';
-          },
-          rich: {
-            value: {
-              fontSize: 20,
-              fontWeight: 'bolder',
-              color: '#777'
-            },
-            unit: {
-              fontSize: 14,
-              color: '#999',
-              padding: [0, 0, -20, 10]
-            }
-          }
-        },
-        data: [
-          {
-            value: 100
-          }
-        ]
-      }
-    ]
-  };
-
-  constructor(private breakpointObserver: BreakpointObserver) { 
+  constructor(
+    private breakpointObserver: BreakpointObserver, 
+    private cd: ChangeDetectorRef,
+    private _svcDashboard: DashboardService) { 
   }
 
   private breakpointChanged() {
@@ -216,5 +78,122 @@ export class DashboardComponent implements OnInit {
     this.breakpoint$.subscribe(() =>
       this.breakpointChanged()
     );
+    this._svcDashboard.getInfo().subscribe((resp: any) => {
+      this.cd.detectChanges();
+      this.recaudacionMensual = resp.recaudacionMensual;
+      this.chartOption = {
+        series: [
+          {
+            type: 'gauge',
+            axisLine: {
+              lineStyle: {
+                width: 10,
+                color: [
+                  [0.3, '#67e0e3'],
+                  [0.7, '#37a2da'],
+                  [1, '#fd666d']
+                ]
+              }
+            },
+            pointer: {
+              itemStyle: {
+                color: 'auto'
+              }
+            },
+            axisTick: {
+              distance: -30,
+              length: 4,
+              lineStyle: {
+                color: '#fff',
+                width: 2
+              }
+            },
+            splitLine: {
+              distance: -30,
+              length: 30,
+              lineStyle: {
+                color: '#fff',
+                width: 4
+              }
+            },
+            axisLabel: {
+              color: 'inherit',
+              distance: 25,
+              fontSize: 12
+            },
+            detail: {
+              valueAnimation: true,
+              formatter: '$ {value}',
+              color: 'inherit',
+              fontSize: 20
+            },
+            data: [
+              {
+                value: this.recaudacionMensual
+              }
+            ]
+          }
+        ]
+      };
+
+      this.miniCards = [
+        {
+          textValue: 'Clientes',
+          value: resp.clientesActivos,
+          icon: 'people',
+          color: '#6737B8'
+        },
+        {
+          textValue: 'Usuarios',
+          value: resp.usuarios,
+          icon: 'business_center',
+          color: '#FFD635'
+        },
+        {
+          textValue: 'Locales Alquilados',
+          value: resp.locales,
+          icon: 'local_convenience_store',
+          color: '#F44133'
+        },
+        {
+          textValue: 'Recaudación Diaria',
+          value: resp.recaudacionDiaria,
+          icon: 'attach_money',
+          color: '#6737B8'
+        }
+      ];
+      const recaudacionTransformada = resp.recaudacionPorTipoVehiculo.map((vehiculo: any) => {
+        return {
+          name: vehiculo.nombre,
+          value: parseFloat(vehiculo.suma)
+        };
+      });
+
+      
+      this.option  = {
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
+        series: [
+          {
+            name: 'Tipo Vehículo',
+            type: 'pie',
+            radius: '50%',
+            data: recaudacionTransformada,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      };
+    });
   }
 }

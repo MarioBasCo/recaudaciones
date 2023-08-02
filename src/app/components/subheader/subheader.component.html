@@ -1,6 +1,8 @@
 <div
   class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:py-6 sm:px-6 border-b bg-card dark:bg-transparent">
-
+  <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+  </div>
   <div class="flex-1 min-w-0">
     <div class="mt-2">
       <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">

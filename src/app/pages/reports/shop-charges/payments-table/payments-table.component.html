@@ -1,0 +1,46 @@
+<table mat-table [dataSource]="pagosData" class="mat-elevation-z8">
+    <!-- Mes Column -->
+    <ng-container matColumnDef="mes">
+        <th mat-header-cell *matHeaderCellDef> Mes </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.mes }} </td>
+    </ng-container>
+
+    <!-- Arrendatario Column -->
+    <ng-container matColumnDef="arrendatario">
+        <th mat-header-cell *matHeaderCellDef> Arrendatario </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.arrendatario }} </td>
+    </ng-container>
+
+    <!-- Local Column -->
+    <ng-container matColumnDef="local">
+        <th mat-header-cell *matHeaderCellDef> Local </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.local }} </td>
+    </ng-container>
+
+    <!-- Valor Arriendo Column -->
+    <ng-container matColumnDef="valorArriendo">
+        <th mat-header-cell *matHeaderCellDef> Valor Arriendo </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.valorArriendo | currency }} </td>
+    </ng-container>
+
+    <!-- Total Abonos Column -->
+    <ng-container matColumnDef="totalAbonos">
+        <th mat-header-cell *matHeaderCellDef> Total Abonos </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.totalAbonos | currency }} </td>
+    </ng-container>
+
+    <!-- Detalle Pagos Column -->
+    <ng-container matColumnDef="detallePagos">
+        <th mat-header-cell *matHeaderCellDef> Detalle Pagos </th>
+        <td mat-cell *matCellDef="let pago">
+            <ul>
+                <li *ngFor="let detalle of pago.detallePagos">
+                    {{ detalle.fechaPago | date }} - {{ detalle.monto | currency }}
+                </li>
+            </ul>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let fila; columns: columnas"></tr>
+</table>

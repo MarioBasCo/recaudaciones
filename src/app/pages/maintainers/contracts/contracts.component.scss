@@ -1,0 +1,25 @@
+@media screen and (max-width: 600px) {
+    .actions-container {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .actions-container button {
+        margin-right: 10px;
+    }
+}
+
+.actions-container button {
+    width: 1.33em;
+    height: 1.33em;
+    margin-right: 10px;
+
+    mat-icon {
+        margin-top: -8px;
+        margin-left: -8px;
+        font-size: .8em;
+    }
+    &:hover {
+        background-color: transparent !important;
+    }
+}

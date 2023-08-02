@@ -1,7 +1,6 @@
 <section class="pt-5">
-    <!-- <p>management works!</p> -->
     <div class="flex flex-shrink-0 justify-end items-center mb-4 sm:mt-0 sm:ml-4">
-        <button mat-flat-button [color]="'primary'">
+        <button mat-flat-button [color]="'primary'" (click)="openDialogRent()">
             <mat-icon>add</mat-icon>
             <span class="ml-2 mr-1">Nuevo</span>
         </button>
@@ -16,10 +15,10 @@
             <ng-container [matColumnDef]="'actions'">
                 <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
                 <mat-cell *matCellDef="let row;">
-                    <button mat-icon-button (click)="openEditForm(row)">
+                    <!-- <button mat-icon-button (click)="openEditForm(row)">
                         <mat-icon aria-hidden="false" aria-label="Editar" color="primary">edit</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="deleteUser(row)">
+                    </button> -->
+                    <button mat-icon-button (click)="deleteArriendo(row)">
                         <mat-icon aria-hidden="false" aria-label="Eliminar" color="warn">delete</mat-icon>
                     </button>
                 </mat-cell>

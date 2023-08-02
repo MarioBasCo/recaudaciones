@@ -1,5 +1,5 @@
 
-<subheader [title]="'Clientes'">
+<subheader [title]="'Clientes'" [isLoading]="isLoading">
   <ng-container>
     <button class="mr-2" mat-icon-button color="primary" (click)="refreshData()">
       <mat-icon>refresh</mat-icon>
@@ -15,8 +15,7 @@
   <search (filtrar)="applyFilter($event)"></search>
 
   <div class="mat-elevation-z8">
-    <app-clients-table [dataSource]="dataSource" [columns]="columns"
-      [displayedColumns]="displayedColumns" (editElement)="openDialogClient($event)"
+    <app-clients-table (editElement)="openDialogClient($event)"
       (deleteElement)="deleteClient($event)"></app-clients-table>
   </div>
 </div>

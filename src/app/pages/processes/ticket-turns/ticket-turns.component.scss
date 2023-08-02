@@ -1,20 +1,15 @@
-.flex {
-    display: flex;
-    flex-wrap: wrap;
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.gap-4 {
-    gap: 1rem;
+.container-flex {
+  margin-bottom: 16px; /* Ajusta el valor según tus necesidades */
 }
 
-.justify-start {
-    justify-content: flex-start;
-}
-
-.items-center {
-    align-items: center;
-}
-
-.inline {
-    display: inline;
+.hidden {
+  display: none;
 }

@@ -20,7 +20,7 @@
       <td mat-cell *matCellDef="let element">
         <div style="overflow: hidden" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
-          <table class="mat-table">
+          <table class="mat-table" *ngIf="element?.vehiculos">
             <thead>
               <tr class="mat-header-row">
                 <th class="mat-header-cell">
@@ -32,12 +32,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="mat-row" *ngFor="let item of element.section">
+              <tr class="mat-row" *ngFor="let item of element?.vehiculos">
                 <td class="mat-cell">
                   {{item.placa}}
                 </td>
                 <td class="mat-cell">
-                  {{item.id_tipo}}
+                  {{item.tipo_vehiculo}}
                 </td>
               </tr>
             </tbody>

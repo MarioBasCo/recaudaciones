@@ -1,49 +1,115 @@
 <subheader title="Recaudaciones">
-    <button mat-flat-button [color]="'primary'" (click)="empezarTurno()">
+    <button mat-flat-button [color]="'primary'" (click)="empezarTurno()" [disabled]="aperturado">
         <mat-icon>work</mat-icon>
         <span class="ml-2 mr-1">Aperturar</span>
     </button>
 </subheader>
 
-<div class="w-full flex justify-center mt-6">
-    <div class="w-full md:w-2/3">
-        <form class="flex gap-4 justify-start items-center">
-            <mat-form-field appearance="fill" class="inline">
-                <mat-label>Placa</mat-label>
-                <input matInput />
+<app-background *ngIf="!aperturado"></app-background>
+
+<div class="wrapper" *ngIf="aperturado">
+    <div class="w-full md:w-2/5 flex flex-col justify-between items-center">
+        <div class="pr-4 pl-4 pt-4 flex w-full">
+            <mat-form-field class="mr-2 w-full">
+                <input matInput plaque maxlength="8" [formControl]="plaque" placeholder="Placa"
+                    (keyup.enter)="buscarDatos()">
+                <button *ngIf="plaqueField" matSuffix mat-icon-button aria-label="Clear" (click)="clearPlaqueField()">
+                    <mat-icon>close</mat-icon>
+                </button>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="inline">
-                <mat-label>Select</mat-label>
-                <mat-select>
-                    <mat-option value="one">First option</mat-option>
-                    <mat-option value="two">Second option</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div class="mat-form-field inline">
-                <div class="mat-form-field-wrapper flex gap-4">
-                    <mat-radio-group class="flex gap-4" aria-label="Select an option">
-                        <mat-radio-button value="1">Option 1</mat-radio-button>
-                        <mat-radio-button value="2">Option 2</mat-radio-button>
-                    </mat-radio-group>
-                </div>
+            <div style="margin-top: 8px;">
+                <button mat-mini-fab color="primary" (click)="buscarDatos()"><mat-icon>search</mat-icon></button>
             </div>
-            <mat-form-field appearance="fill" class="inline">
-                <mat-label>Textarea</mat-label>
-                <textarea matInput></textarea>
-            </mat-form-field>
-            <div class="mat-form-field inline">
-                <div class="mat-form-field-wrapper flex gap-4">
-                    <mat-checkbox class="example-margin">Checked</mat-checkbox>
-                    <mat-checkbox class="example-margin">Indeterminate</mat-checkbox>
-                </div>
-            </div>
-            <div class="mat-form-field inline">
-                <div class="mat-form-field-wrapper">
-                    <button mat-raised-button color="primary">
-                        <mat-icon>search</mat-icon> Search
-                    </button>
-                </div>
-            </div>
-        </form>
+        </div>
+
+        <div class="flex flex-col justify-center items-center p-4">
+            <form [formGroup]="readForm" (ngSubmit)="saveCobro()">
+                <mat-form-field appearance="outline" class="pt-2 w-full" [class.disabled]="true">
+                    <mat-label style="color: rgba(0, 0, 0, 0.8);">Nombre/Razón Social</mat-label>
+                    <input matInput formControlName="nombre" style="color: rgba(0, 0, 0, 0.8);">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="pt-2 w-full">
+                    <mat-label style="color: rgba(0, 0, 0, 0.8);">Tipo Vehículo</mat-label>
+                    <input matInput formControlName="tipo" style="color: rgba(0, 0, 0, 0.8);">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="pt-2 w-full">
+                    <mat-label style="color: rgba(0, 0, 0, 0.8);">Valor a pagar</mat-label>
+                    <input matInput formControlName="valor" style="color: rgba(0, 0, 0, 0.8);">
+                </mat-form-field>
+
+                <button type="submit" mat-raised-button
+                    color="primary" [disabled]="!existsInfo"><mat-icon>save</mat-icon>Guardar</button>
+
+                <button type="button" #printTemplate [printTitle]="title" printSectionId="demo" ngxPrint [useExistingCss]="true" [class.hidden]="true"></button>
+            </form>
+        </div>
     </div>
+</div>
+
+
+
+<div id="demo" style="display: none;">
+    <div cdkScrollable>
+
+        <!-- Main -->
+        <div class="inline-block p-6 sm:p-10 text-left print:p-0">
+            <div
+                class="w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:rounded-none print:shadow-none print:bg-transparent">
+
+                <div class="flex items-start justify-between">
+                    <div class="grid grid-cols-2 gap-x-1 gap-y-1">
+                        <div class="text-3xl tracking-tight text-secondary">TICKET</div>
+                        <div class="text-3xl">#{{ticketNumber}}</div>
+                        <div class="font-medium tracking-tight text-secondary">FECHA</div>
+                        <div class="font-medium">{{currentDate}}</div>
+                    </div>
+                    <div
+                        class="grid auto-cols-max grid-flow-col gap-x-8 -mr-16 ml-32 py-6 px-8 rounded-l-2xl bg-accent dark">
+                        <div class="pl-10 text-md">
+                            <div class="font-medium">Puerto Pesquero ANCONCITO</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-md mt-2">
+                    <div class="text-xl font-medium">{{nombre}}</div>
+                </div>
+
+                <div class="grid grid-cols-12 gap-x-1 mt-12">
+                    <!-- Columns -->
+                    <div class="col-span-8 font-medium text-md text-secondary">VEHÍCULO</div>
+                    <div class="col-span-2 font-medium text-md text-right text-secondary">PLACA</div>
+                    <div class="col-span-2 font-medium text-md text-right text-secondary">TOTAL</div>
+
+                    <!-- Divider -->
+                    <div class="col-span-12 my-4 border-b"></div>
+
+                    <!-- Item -->
+                    <div class="col-span-8 text-lg font-medium">{{tipo}}</div>
+                    <div class="col-span-2 self-center text-right">{{plaqueField}}</div>
+                    <div class="col-span-2 self-center text-right">$ {{valor | number : '1.2-2'}}</div>
+
+                    <!-- Spacer -->
+                    <div class="col-span-12 mt-16"></div>
+
+                    <!-- Subtotal -->
+                    <div class="col-span-10 self-center font-medium tracking-tight text-secondary">SUBTOTAL</div>
+                    <div class="col-span-2 text-right text-lg">$ {{valor | number : '1.2-2'}}</div>
+
+                    <!-- Divider -->
+                    <div class="col-span-12 my-3 border-b"></div>
+
+                    <!-- Total -->
+                    <div class="col-span-10 self-center text-2xl font-medium tracking-tight text-secondary">TOTAL</div>
+                    <div class="col-span-2 text-right text-2xl font-medium">$ {{valor | number : '1.2-2'}}</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
