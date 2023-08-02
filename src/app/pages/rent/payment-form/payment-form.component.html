@@ -1,0 +1,33 @@
+<!-- Eliminamos la clase "p-4 space-y-4" del formulario y agregamos un div contenedor -->
+<div class="p-4 space-y-4">
+    <h2 mat-dialog-title>Formulario de Pago Arriendo</h2>
+    <div mat-dialog-content>
+      <form [formGroup]="formularioArriendo" class="flex flex-col pt-3">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Arrendatario</mat-label>
+          <mat-select formControlName="arriendo_id">
+            <mat-option *ngFor="let arriendo of arriendos" [value]="arriendo.id_arriendo">
+              {{ arriendo.arrendatario }} - {{ arriendo.local }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Monto</mat-label>
+          <input matInput type="number" formControlName="monto" step="0.01" required>
+          <mat-error *ngIf="formularioArriendo.controls['monto'].hasError('required')">El monto es obligatorio.</mat-error>
+          <mat-error *ngIf="formularioArriendo.controls['monto'].hasError('min') && formularioArriendo.controls['monto'].dirty">El monto no debe ser cero.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Observación</mat-label>
+          <textarea matInput formControlName="observacion"></textarea>
+        </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="cancelar()">Cancelar</button>
+      <button mat-button color="primary" [disabled]="formularioArriendo.invalid" (click)="guardarArriendo()">Guardar</button>
+    </div>
+  </div>
+  

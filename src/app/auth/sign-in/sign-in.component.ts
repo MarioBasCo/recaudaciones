@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
+import { MenuService } from 'src/app/layout/menu/menu.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -19,7 +20,8 @@ export class SignInComponent {
     private _svcAuth: AuthService,
     private toast: ToastService,
     private _svcStorage: StorageService,
-    private router: Router
+    private router: Router,
+    private _svcMenu: MenuService
   ) {
   }
 
@@ -43,10 +45,25 @@ export class SignInComponent {
 
       if (resp.data) {
         const user = resp.data.usuario;
+        console.log(user);
         const token = resp.data.token;
         this._svcStorage.set('token_pto', token);
         this._svcStorage.set('user_pto', user);
-        this.router.navigateByUrl('/', { replaceUrl: true });
+        this._svcMenu.preloadMenu(user.role_id).subscribe(resp => {
+          console.log(resp);
+        });
+        this._svcMenu.loadMenu();
+        //location.href = '/';
+        if(user.role_id == 1) {
+          this.router.navigateByUrl('/', { replaceUrl: true });
+        }
+
+        if(user.role_id == 2){
+          this.router.navigateByUrl('/maintainers/clients', { replaceUrl: true });
+        }
+        //window.location.reload();
+        //window.location.reload();
+
         //this.signInForm.reset();
         //this.signInForm.markAsTouched();
       }

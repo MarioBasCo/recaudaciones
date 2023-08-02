@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RoleService } from '../../roles/role.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../user.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import { IUser } from '../user.interface';
+import { RbacService } from '../../roles/rbac.service';
 
 @Component({
   selector: 'app-user-form',
@@ -16,6 +16,7 @@ import { IUser } from '../user.interface';
 export class UserFormComponent {
   userForm: FormGroup;
   public isLoading: boolean;
+  public titulo: string = '';
   public roles: any[] = [];
   public emailregex: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
   public letterregex: string = "[A-Za-zÁÉÍÓÚáéíóúñÑ ]+";
@@ -23,11 +24,13 @@ export class UserFormComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<UserFormComponent>,
     private fb: FormBuilder,
-    private _svcRole: RoleService,
+    private _svcRole: RbacService,
     private _svcUser: UserService,
     private toast: ToastService,
   ) {
+    this.titulo = this.data ? 'Editar' : 'Nuevo';
     this.userForm = this.createForm(data);
     this.isLoading = false;
   }
@@ -85,6 +88,7 @@ export class UserFormComponent {
         .subscribe(() => {
           this.isLoading = false;
           this.userForm.enable();
+          this.dialogRef.close(true);
           this.toast.openSnackBar('Usuario actualizado con éxito', 'success');
         });
     } else {
@@ -98,6 +102,7 @@ export class UserFormComponent {
         .subscribe(() => {
           this.isLoading = false;
           this.userForm.enable();
+          this.dialogRef.close(true);
           this.toast.openSnackBar('Usuario creado con éxito', 'success');
         });
     }

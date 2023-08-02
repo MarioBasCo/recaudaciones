@@ -9,17 +9,33 @@
 <app-background *ngIf="!showInfo"></app-background>
 
 <div class="mt-6" *ngIf="showInfo">
-    <div fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px"
-        style="width: 100%; display: flex; justify-content: center;">
-        <div fxFlex.sm="0 1 calc(100%-10px)" fxFlex.lg="0 1 calc(40%-10px)" fxFlex.md="0 1 calc(80%-10px)" class="mb-4">
-            <div id="chart" style="text-align:center">
+    <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center">
+        <div class="w-full sm:w-auto md:w-80 lg:w-2/5 xl:w-2/5 mb-4">
+            <div id="chart" class="text-center mr-5">
+                <h2 class="text-xl font-medium text-center mb-3">Recaudación Por Tipo de Vehículo</h2>
                 <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
                     [responsive]="chartOptions.responsive"></apx-chart>
             </div>
         </div>
 
-        <div fxFlex.sm="0 1 calc(100%-10px)" fxFlex.lg="0 1 calc(60%-10px)" fxFlex.md="0 1 calc(90%-10px)" class="mb-4">
-            <charge-table [displayedColumns]="displayedColumns" [dataSource]="dataSource"></charge-table>
+        <div class="w-full sm:w-auto md:w-80 lg:w-3/5 xl:w-3/5 mb-4">
+            <h2 class="text-xl font-medium text-center mb-3">Detalles de la recaudación por tipo</h2>
+            <charge-table [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns"></charge-table>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center">
+        <div class="w-full sm:w-auto md:w-80 lg:w-3/5 xl:w-3/5 mb-4">
+            <h2 class="text-xl font-medium text-center mb-3">Detalles de la recaudación por usuarios</h2>
+            <charge-table [dataSource]="dataSourceU" [columns]="columnsU" [displayedColumns]="displayedColumnsU"></charge-table>
+        </div>
+
+        <div class="w-full sm:w-auto md:w-80 lg:w-2/5 xl:w-2/5 mb-4">
+            <div id="chartpolar" class="text-center" *ngIf="chartPolarOptions">
+                <h2 class="text-xl font-medium text-center mb-3">Recaudación Por Usuarios</h2>
+                <apx-chart [series]="chartPolarOptions.series" [chart]="chartPolarOptions.chart"
+                    [labels]="chartPolarOptions.labels"></apx-chart>
+            </div>
         </div>
     </div>
 </div>

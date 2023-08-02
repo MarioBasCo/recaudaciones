@@ -4,6 +4,9 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from './user.service';
 import { UsersTableComponent } from './users-table/users-table.component';
+import { OptionsAlert } from 'src/app/components/alert-dialog/alert-dialog.component';
+import { AlertService } from 'src/app/shared/services/alert.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -16,7 +19,9 @@ export class UsersComponent {
   
   constructor(
     public dialog: MatDialog, 
-    private _svcUser: UserService) {
+    private _svcUser: UserService,
+    private toast: ToastService,
+    private alert: AlertService) {
 
   }
 
@@ -41,7 +46,7 @@ export class UsersComponent {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-
+        this.loadData();
       }
     });
   }
@@ -55,6 +60,22 @@ export class UsersComponent {
   }
 
   deleteUser(event: any){
+    const opt: OptionsAlert = {
+      title: '❌ Eliminar Registro',
+      message: '¿Deseas eliminar este registro?'
+    };
+    const dialogAlert = this.alert.open(opt);
 
+    dialogAlert.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        let id = event.id;
+        this._svcUser.eliminarUser(id).subscribe(resp => {
+          if(resp.message){
+            this.toast.openSnackBar(resp.message);
+            this.loadData();
+          }
+        });
+      }
+    });
   }
 }

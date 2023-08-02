@@ -1,20 +1,57 @@
 <ng-container>
-    <h2 mat-dialog-title>{{title}}</h2>
-    <div mat-dialog-content class="flex flex-col pt-3" [formGroup]="roleForm">
-        <mat-form-field appearance="outline">
-            <mat-label>Nombre</mat-label>
-            <input matInput type="text" formControlName="name">
-            <mat-error *ngIf="roleForm.invalid">ERROR</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="pt-2">
-            <mat-label>Descripción</mat-label>
-            <input matInput formControlName="description">
-        </mat-form-field>
+    <h2 mat-dialog-title class="text-2xl font-semibold">{{ title }} Rol</h2>
+    <div mat-dialog-content>
+        <div class="p-3" [formGroup]="roleForm">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" formControlName="name">
+                <mat-error *ngIf="roleForm.get('name')?.invalid">Campo requerido</mat-error>
+            </mat-form-field>
+
+            <h3 class="text-xl mt-6">Permisos disponibles:</h3>
+
+            <div>
+                <ng-container *ngFor="let menu of menus; let i=index">
+                  <!-- Mostrar el menú si tiene permisos o sus submenús tienen permisos -->
+                  <ng-container>
+                    <h4 class="text-lg mt-4">
+                      <mat-checkbox (change)="onSelectMenu(i)" [checked]="menu.checked" [indeterminate]="menu.indeterminate">
+                        {{ menu.title }}
+                      </mat-checkbox>
+                    </h4>
+                    <!-- Mostrar los permisos de los menus que no poseen submenús -->
+                    <div class="ml-4">
+                      <mat-checkbox *ngFor="let permission of menu.permissions" [checked]="permission.checked"
+                        (change)="onSelectPermission(i, permission)">
+                        {{ permission.name }}
+                      </mat-checkbox>
+                    </div>
+              
+                    <div *ngFor="let submenu of menu.children; let submenuIndex = index;" class="ml-6">
+                      <mat-checkbox (change)="onSelectSubmenu(i, submenuIndex)" [checked]="submenu.checked"
+                        [indeterminate]="submenu.indeterminate">
+                        {{ submenu.title }}
+                      </mat-checkbox>
+                      <div class="ml-8">
+                        <mat-checkbox *ngFor="let permission of submenu.permissions" [checked]="permission.checked"
+                          (change)="onSelectPermission(i, permission)">
+                          {{ permission.name }}
+                        </mat-checkbox>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+              
+
+        </div>
     </div>
     <div mat-dialog-actions class="justify-end">
-        <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading"
-            color="warn">Cancelar</button>
-        <button mat-raised-button class="min-w-26" [disabled]="isLoading || roleForm.invalid" color="primary" (click)="save()">
+        <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading" color="warn">
+            Cancelar
+        </button>
+        <button mat-raised-button class="min-w-26" [disabled]="isLoading || roleForm.invalid" color="primary"
+            (click)="save()">
             <ng-container *ngIf="isLoading; else elseTemplate">
                 <mat-spinner [diameter]="25"></mat-spinner>
             </ng-container>

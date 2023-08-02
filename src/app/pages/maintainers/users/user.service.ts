@@ -36,6 +36,11 @@ export class UserService {
 
   updateUser(data: any, id: number){
     const url =  `${this.baseUrl}/users/${id}`;
-    return this.http.put<any>(url, data)
+    return this.http.put<any>(url, data);
+  }
+
+  eliminarUser(id: number){
+    const url =  `${this.baseUrl}/users/${id}`;
+    return this.http.delete<any>(url);
   }
 }

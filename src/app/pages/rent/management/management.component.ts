@@ -6,6 +6,9 @@ import { RentService } from '../rent.service';
 import { Arriendo } from '../rent.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { RentalFormComponent } from '../rental-form/rental-form.component';
+import { AlertService } from 'src/app/shared/services/alert.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { OptionsAlert } from 'src/app/components/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'management',
@@ -15,6 +18,7 @@ import { RentalFormComponent } from '../rental-form/rental-form.component';
 export class ManagementComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  
   displayedColumns: string[] = ['arrendatario', 'codigo', 'valorArriendo', 'meses', 'fecha', 'actions'];
   columns = [
     {
@@ -48,11 +52,16 @@ export class ManagementComponent {
 
   constructor(
     public dialog: MatDialog,
-    private _svcRent: RentService) { }
+    private _svcRent: RentService,
+    private alert: AlertService, 
+    private toast: ToastService) { }
 
   ngOnInit() {
+    this.loadArriendos();
+  }
+
+  loadArriendos() {
     this._svcRent.getArriendos().subscribe(resp => {
-      console.log(resp);
       this.dataSource = new MatTableDataSource(resp);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -69,15 +78,35 @@ export class ManagementComponent {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.loadArriendos();
       }
     });
   }
 
   openEditForm(client: any) {
-    //this.editElement.emit(client);
   }
 
-  deleteUser(data: any) {
-    //this.deleteElement.emit(data);
+  deleteArriendo(data: any) {
+    const opt: OptionsAlert = {
+      title: '❌ Eliminar Registro',
+      message: '¿Deseas eliminar este registro?',
+      note: '!!El Local quedará disponible!!'
+    };
+    const dialogAlert = this.alert.open(opt);
+
+    dialogAlert.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        let id = data.id;
+        this._svcRent.eliminarArriendo(id).subscribe({
+          next: (resp: any) => {
+            this.toast.openSnackBar(resp.message);
+            this.loadArriendos();
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+      }
+    });
   }
 }

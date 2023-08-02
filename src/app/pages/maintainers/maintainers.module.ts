@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { MaintainersRoutingModule } from './maintainers-routing.module';
 import { ClientsComponent } from './clients/clients.component';
@@ -65,10 +65,11 @@ import { VehiclesFormComponent } from './clients/client-form/vehicles-form/vehic
     DisallowSpacesDirective,
     OnlyNumbersDirective,
     PhoneDirective,
-    PlaqueDirective
+    PlaqueDirective,
   ],
   providers: [
-    provideNgxMask()
+    provideNgxMask(),
+    DatePipe
   ],
 })
 export class MaintainersModule { }

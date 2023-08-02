@@ -1,8 +1,22 @@
 <subheader title="Historial de Cobros">
-    <app-range-date></app-range-date>
-    <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" class="ml-2 -mr-3" (click)="print()">
+    <app-range-date (startDateChange)="startDate = $event" (endDateChange)="endDate = $event"></app-range-date>
+    <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" class="ml-2 -mr-3"
+        [disabled]="!isDateRangeValid" (click)="search()">
         <mat-icon>search</mat-icon>
     </button>
 </subheader>
 
-<app-background></app-background>
+<app-background *ngIf="!showInfo"></app-background>
+
+<div class="mt-6" *ngIf="showInfo">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab label="General">
+            <history-table [dataSource]="dataSourceG" [columns]="columns"></history-table>
+            <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2" (click)="printGeneral()">Descargar Reporte</button>
+        </mat-tab>
+        <mat-tab label="Detallado">
+            <history-table [dataSource]="dataSource" [columns]="columns2"></history-table>
+            <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2" (click)="printFull()">Descargar Reporte</button>
+        </mat-tab>
+    </mat-tab-group>
+</div>

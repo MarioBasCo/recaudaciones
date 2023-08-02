@@ -7,7 +7,8 @@ export const isLoginGuardFn: CanActivateFn = () => {
     const _svcAuth = inject(AuthService);
 
     if (_svcAuth.isAuthenticated()) {
-      return router.parseUrl('/dashboard');
+      router.navigate(['/']);
+      return false;
     } else {
       return true;
     }

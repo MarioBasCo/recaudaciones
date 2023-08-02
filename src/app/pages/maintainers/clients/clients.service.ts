@@ -38,18 +38,18 @@ export class ClientsService {
   sharedList(list: Client[]) {
     this.listaClienteSubject.next(list);
   }
-  /*
-  Route::post('clientes/{cliente}/vehiculos', [VehiculoController::class, 'asignarVehiculo']);
-Route::put('clientes/{cliente}/vehiculos/{vehiculo}', [VehiculoController::class, 'editarVehiculo']);
-Route::delete('clientes/{cliente}/vehiculos/{vehiculo}', [VehiculoController::class, 'eliminarVehiculo']);
-  */
 
-  asignarVehiculo(id: number, data: any){
+  eliminarCliente(id: number) {
+    const url = `${this.baseUrl}/clientes/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  asignarVehiculo(id: number, data: any) {
     const url = `${this.baseUrl}/clientes/${id}/vehiculos`;
     return this.http.post<any>(url, data);
   }
 
-  updateVehiculo(id: number, data: any){
+  updateVehiculo(id: number, data: any) {
     const url = `${this.baseUrl}/clientes/${id}/vehiculos/${data.id}`;
     return this.http.put<any>(url, data);
   }

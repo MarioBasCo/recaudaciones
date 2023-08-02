@@ -25,9 +25,12 @@ export class AuthService {
     return this.http.post<any>(url, data);
   }
 
-  logout(){
+  logout() {
     this._svcStorage.remove('user_pto');
     this._svcStorage.remove('token_pto');
-    this.router.navigateByUrl('/auth', { replaceUrl: true });
+    this._svcStorage.remove('menus');
+    //this.router.navigateByUrl('/auth', { replaceUrl: true });
+    location.href = '/auth';
+    //this.router.dispose();
   }
 }

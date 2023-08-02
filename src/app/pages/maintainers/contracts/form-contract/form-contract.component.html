@@ -1,82 +1,99 @@
 <div>
-    <h2 mat-dialog-title>Contrato</h2>
-    <!-- <div mat-dialog-content class="flex flex-col" [formGroup]="clientForm">
+  <h2 mat-dialog-title>Contrato</h2>
 
-        <form class="w-full mt-2">
-            <div class="flex flex-wrap -mx-3 mb-2"> -->
+  <div mat-dialog-content class="flex flex-col">
+    <form class="w-full mt-2" [formGroup]="contractForm">
+      <div class="mb-3">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Usuario trabajador</mat-label>
+          <mat-select formControlName="idEmpleado">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{user.empleado}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error class="-mt-6" *ngIf="contractForm.get('idEmpleado')?.touched && contractForm.get('idEmpleado')?.hasError('required')">
+          <small style="font-size: 12px;">Campo requerido</small>
+        </mat-error>
+      </div>
 
-    <div mat-dialog-content class="flex flex-col" [formGroup]="contractForm">
-        <!-- <admin-mat-select-search label="Usuario" [items]="users" itemsKey="nombreusuario" controlName="idEmpleado">
-        </admin-mat-select-search> -->
-
-
-        <!-- 
-
-            <form class="flex gap-4 justify-start items-center">
-            <mat-form-field appearance="fill" class="inline">
-                <mat-label>Placa</mat-label>
-                <input matInput />
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="inline">
-                <mat-label>Select</mat-label>
-                <mat-select>
-                    <mat-option value="one">First option</mat-option>
-                    <mat-option value="two">Second option</mat-option>
-                </mat-select>
-            </mat-form-field>
-         -->
-        <form class="w-full mt-2">
-            <div class="flex flex-wrap -mx-3 mb-2">
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Curriculum</mat-label>
-                    <input matInput type="text" readonly [formControl]="cv">
-                    <ngx-dropzone class="hidden" #dropCV (change)="onSelect('cv', $event)" [multiple]="false"></ngx-dropzone>
-                    <button type="button" mat-icon-button (click)="dropCV.showFileSelector()">
-                       <mat-icon>cloud_upload</mat-icon>
-                    </button>
-                    <mat-error *ngIf="contractForm.invalid">Campo requerido</mat-error>
-                </mat-form-field>
-
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Referencias</mat-label>
-                    <input matInput type="text" readonly [formControl]="referencias">
-                    <ngx-dropzone class="hidden" #dropReferencia (change)="onSelect('referencias', $event)"></ngx-dropzone>
-                    <button type="button" mat-icon-button (click)="dropReferencia.showFileSelector()">
-                       <mat-icon>cloud_upload</mat-icon>
-                    </button>
-                    <mat-error *ngIf="contractForm.invalid">Campo requerido</mat-error>
-                </mat-form-field>
+      <div class="flex flex-wrap -mx-3 mb-2">
+        <div class="w-full md:w-1/2 px-3">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Curriculum</mat-label>
+            <div class="flex items-center">
+              <input matInput type="text" readonly [formControl]="cv" class="flex-1">
+              <ngx-dropzone class="hidden" #dropCV (change)="onSelect('cv', $event)" [multiple]="false"></ngx-dropzone>
+              <button type="button" style="width: 1.5em; height: 1.5em;" mat-mini-fab [color]="'primary'"
+                (click)="dropCV.showFileSelector()">
+                <mat-icon style="font-size: 1em; margin-top: 8px;">cloud_upload</mat-icon>
+              </button>
             </div>
-            <!-- <div class="mb-3 font-medium">
-                <mat-checkbox labelPosition="before" formControlName="renovacion">Renovación</mat-checkbox>
-            </div> -->
-            <div class="flex flex-wrap -mx-3 mb-2">
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0" appearance="outline">
-                    <mat-label>Meses de Contrato</mat-label>
-                    <input matInput type="number" min="1" formControlName="mesesContrato">
-                    <mat-error *ngIf="contractForm.invalid">Campo requerido</mat-error>
-                </mat-form-field>
-                <mat-form-field class="w-full md:w-1/2 px-3 md:mb-0">
-                    <mat-label>Fecha Incio</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="fechaInicio" appearance="outline">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
+          </mat-form-field>
+          <mat-error class="-mt-6" *ngIf="contractForm.get('cv')?.hasError('required') && cv.touched">
+            <small style="font-size: 12px;">Campo requerido</small>
+          </mat-error>
+          <mat-error class="-mt-6" *ngIf="contractForm.get('cv')?.hasError('requiredFileType')">
+            <small style="font-size: 12px;">El archivo debe ser de tipo PDF.</small>
+          </mat-error>
+        </div>
+
+        <div class="w-full md:w-1/2 px-3">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Referencias</mat-label>
+            <div class="flex items-center">
+              <input matInput type="text" readonly [formControl]="referencias">
+              <ngx-dropzone class="hidden" #dropReferencia (change)="onSelect('referencias', $event)"></ngx-dropzone>
+              <button type="button" style="width: 1.5em; height: 1.5em;" [color]="'primary'" mat-mini-fab
+                (click)="dropReferencia.showFileSelector()">
+                <mat-icon style="font-size: 1em; margin-top: 8px;">cloud_upload</mat-icon>
+              </button>
             </div>
-        </form>
-        
-    </div>
-    <div mat-dialog-actions class="justify-end">
-        <!-- <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading" color="warn">{{
-            t('actions.cancel') }}</button>
-        <button mat-raised-button class="min-w-26"  color="primary"
-            (click)="save()">
-            <ng-container *ngIf="isLoading; else elseTemplate">
-                <mat-spinner [diameter]="25"></mat-spinner>
-            </ng-container>
-            <ng-template #elseTemplate>
-                {{ t('actions.save') }}
-            </ng-template>
-        </button> -->
-    </div>
+          </mat-form-field>
+          <mat-error class="-mt-6" *ngIf="contractForm.get('referencias')?.hasError('required') && referencias.touched">
+            <small style="font-size: 12px;">Campo requerido</small>
+          </mat-error>
+          <mat-error class="-mt-6" *ngIf="contractForm.get('referencias')?.hasError('requiredFileType')">
+            <small style="font-size: 12px;">El archivo debe ser de tipo PDF.</small>
+          </mat-error>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap -mx-3 mb-2">
+        <div class="w-full md:w-1/2 px-3">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Meses de Contrato</mat-label>
+            <input matInput type="number" min="1" formControlName="mesesContrato">
+            <mat-error class="-mx-4" *ngIf="contractForm.get('mesesContrato')?.invalid">Campo requerido</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="w-full md:w-1/2 px-3">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Fecha Incio</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fechaInicio" appearance="outline">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error class="-mx-4" *ngIf="contractForm.get('fechaInicio')?.hasError('required')">Campo
+              requerido</mat-error>
+            <mat-error class="-mx-4" *ngIf="contractForm.get('fechaInicio')?.hasError('fechaInvalida')">La fecha debe
+              ser mayor o igual a la fecha actual.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions class="justify-end">
+    <button mat-raised-button class="min-w-26" [mat-dialog-close]="false" [disabled]="isLoading"
+      color="warn">Cancelar</button>
+    <button mat-raised-button class="min-w-26" [disabled]="isLoading || contractForm.invalid" color="primary"
+      (click)="save()">
+      <ng-container *ngIf="isLoading; else elseTemplate">
+        <mat-spinner [diameter]="25"></mat-spinner>
+      </ng-container>
+      <ng-template #elseTemplate>
+        Guardar
+      </ng-template>
+    </button>
+  </div>
 </div>

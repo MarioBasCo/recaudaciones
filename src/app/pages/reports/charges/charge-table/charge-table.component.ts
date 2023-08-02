@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./charge-table.component.scss']
 })
 export class ChargeTableComponent {
+  @Input() columns: any;
   @Input() displayedColumns: any;
   @Input() dataSource!: MatTableDataSource<any>;
 }

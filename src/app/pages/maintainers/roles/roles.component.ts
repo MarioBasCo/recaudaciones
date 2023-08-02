@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { RoleFormComponent } from './role-form/role-form.component';
-import { RoleService } from './role.service';
+import { RbacService } from './rbac.service';
 
 @Component({
   selector: 'app-roles',
@@ -21,7 +21,7 @@ export class RolesComponent {
 
   constructor(
     public dialog: MatDialog,
-    private _svcRole: RoleService) {
+    private _svcRole: RbacService) {
   }
 
   ngOnInit() {
@@ -46,6 +46,7 @@ export class RolesComponent {
   openDialogRole(role: any = null) {
     const dialogRef = this.dialog.open(RoleFormComponent, {
       data: role,
+      width: '650px',
       minWidth: 'auto'
     });
 

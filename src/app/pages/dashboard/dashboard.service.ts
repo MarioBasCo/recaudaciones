@@ -5,13 +5,13 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleService {
-  public baseUrl = environment.baseUrl;
+export class DashboardService {
+  path = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
-  getRoles(){
-    const url = `${this.baseUrl}/roles`;
+  getInfo() {
+    const url = `${this.path}/dashboard`;
     return this.http.get<any>(url);
   }
 }

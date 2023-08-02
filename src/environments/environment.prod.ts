@@ -1,7 +1,7 @@
 
 const protocol = 'http://'
-const domain = '127.0.0.1';
-const port = ':8000';
+const domain = '18.219.5.230';
+const port = '';
 const sufix = '/api';
 
 export const environment = {

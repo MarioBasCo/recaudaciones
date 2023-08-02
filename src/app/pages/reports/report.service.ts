@@ -10,8 +10,18 @@ export class ReportService {
 
   constructor(private http: HttpClient) { }
 
-  tiposPorFechas(startDate: string, endDate: string){
-    const url =  `${this.path_base}/reporte/garita/${startDate}/${endDate}`;
+  tiposPorFechas(startDate: string, endDate: string) {
+    const url = `${this.path_base}/reporte/garita/${startDate}/${endDate}`;
+    return this.http.get<any>(url);
+  }
+
+  getHistoryCobros(startDate: string, endDate: string) {
+    const url = `${this.path_base}/reporte/historial/${startDate}/${endDate}`;
+    return this.http.get<any>(url);
+  }
+
+  getPagos(startDate: string, endDate: string) {
+    const url = `${this.path_base}/reporte/pagos/locales/${startDate}/${endDate}`;
     return this.http.get<any>(url);
   }
 }

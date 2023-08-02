@@ -43,16 +43,16 @@ export class UsersTableComponent {
 
   dataSource!: MatTableDataSource<IUser>;
   private users$!: Subscription;
-  
+
   @Output() editElement = new EventEmitter<any>();
   @Output() deleteElement = new EventEmitter<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private _svcUser: UserService) { }
-  
+
   ngOnInit() {
-    this.users$ =this._svcUser.listUser$.subscribe(resp => {
+    this.users$ = this._svcUser.listUser$.subscribe(resp => {
       this.dataSource = new MatTableDataSource(resp);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -73,7 +73,7 @@ export class UsersTableComponent {
     this.deleteElement.emit(data);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.users$.unsubscribe();
   }
 }

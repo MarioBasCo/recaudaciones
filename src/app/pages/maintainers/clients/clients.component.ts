@@ -6,6 +6,7 @@ import { OptionsAlert } from 'src/app/components/alert-dialog/alert-dialog.compo
 import { ClientsService } from 'src/app/pages/maintainers/clients/clients.service';
 import { Client } from './client.interface';
 import { ClientsTableComponent } from './clients-table/clients-table.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-clients',
@@ -16,8 +17,10 @@ export class ClientsComponent {
   public isLoading: boolean = false;
   @ViewChild(ClientsTableComponent) tablaComponent!: ClientsTableComponent;
 
-  constructor(public dialog: MatDialog, private alert: AlertService,
-    private _svcClient: ClientsService) { 
+  constructor(
+    public dialog: MatDialog, private alert: AlertService,
+    private _svcClient: ClientsService,
+    private toast: ToastService) { 
   }
 
   ngOnInit() {
@@ -63,7 +66,13 @@ export class ClientsComponent {
 
     dialogAlert.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        alert(JSON.stringify(data));
+        let id = data.cliente_id;
+        this._svcClient.eliminarCliente(id).subscribe(resp => {
+          if(resp.message){
+            this.loadData();
+            this.toast.openSnackBar(resp.message);            
+          }
+        });
       }
     });
   }

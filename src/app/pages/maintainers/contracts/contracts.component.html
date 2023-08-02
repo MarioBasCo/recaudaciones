@@ -1,7 +1,7 @@
 <div>
     <subheader title="Contratos">
         <ng-container>
-            <button class="mr-2" mat-icon-button color="primary">
+            <button class="mr-2" mat-icon-button color="primary" (click)="listarContratos()">
                 <mat-icon>refresh</mat-icon>
             </button>
             <button mat-flat-button [color]="'primary'" (click)="openDialog()">
@@ -20,12 +20,19 @@
                         <mat-cell *matCellDef="let row">{{column.cell(row)}}</mat-cell>
                     </ng-container>
                     <ng-container [matColumnDef]="'actions'">
-                        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-                        <mat-cell *matCellDef="let row;">
-                            <button mat-icon-button (click)="openDialog(row)">
-                                <mat-icon aria-hidden="false" aria-label="Editar" color="primary">edit</mat-icon>
+                        <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
+                        <mat-cell *matCellDef="let row;" class="actions-container" style="width: 100%; display: flex; justify-content: flex-start; text-align: start;">
+                            <button mat-icon-button (click)="openPdf(row.cv)">
+                                <mat-icon aria-hidden="false" aria-label="Curriculum" color="primary"> insert_drive_file</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="deleteElement(row)">
+
+                            <button mat-icon-button (click)="openPdf(row.referencias)">
+                                <mat-icon aria-hidden="false" aria-label="Referencias" color="primary">speaker_notes</mat-icon>
+                            </button>
+                            <!-- <button mat-icon-button (click)="openDialog(row)">
+                                <mat-icon aria-hidden="false" aria-label="Editar" color="primary">edit</mat-icon>
+                            </button> -->
+                            <button mat-icon-button (click)="deleteElement(row)" [disabled]="!row.estado">
                                 <mat-icon aria-hidden="false" aria-label="Eliminar" color="warn">delete</mat-icon>
                             </button>
                         </mat-cell>

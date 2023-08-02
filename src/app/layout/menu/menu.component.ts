@@ -1,6 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MenuService } from './menu.service';
 
 
 @Component({
@@ -11,88 +12,12 @@ import { Subscription } from 'rxjs';
 export class MenuComponent implements OnDestroy {
   currentRoute: string = '';
   event$ !: Subscription;
-  menuList: any[] = [
-    {
-      "text": "Dashboard",
-      "icon": "pie_chart",
-      "routerLink": "/dashboard"
-    },
-    {
-      "text": "Mantenedores",
-      "icon": "dashboard",
-      "children": [
-        {
-          "text": "Clientes",
-          "icon": "fiber_manual_record",
-          "routerLink": "/maintainers/clients"
-        },
-        {
-          "text": "Usuarios",
-          "icon": "fiber_manual_record",
-          "routerLink": "/maintainers/users"
-        },
-        {
-          "text": "Roles",
-          "icon": "fiber_manual_record",
-          "routerLink": "/maintainers/roles"
-        },
-        {
-          "text": "Contratos",
-          "icon": "fiber_manual_record",
-          "routerLink": "/maintainers/contracts"
-        },
-        {
-          "text": "Parametros",
-          "icon": "fiber_manual_record",
-          "routerLink": "/maintainers/params"
-        }
-      ]
-    },
-    {
-      "text": "Procesos",
-      "icon": "desktop_windows",
-      "children": [
-        {
-          "text": "Cobros Garita",
-          "icon": "fiber_manual_record",
-          "routerLink": "/processes/turns"
-        },
-        {
-          "text": "Cierre Turno",
-          "icon": "fiber_manual_record",
-          "routerLink": "/processes/close-turns"
-        }
-      ]
-    },
-    {
-      "text": "Locales",
-      "icon": "local_convenience_store",
-      "routerLink": "/rent"
-    },
-    {
-      "text": "Reportes",
-      "icon": "analytics",
-      "children": [
-        {
-          "text": "Cobros Garita",
-          "icon": "fiber_manual_record",
-          "routerLink": "/reports/charges"
-        },
-        {
-          "text": "Historial Cobros",
-          "icon": "fiber_manual_record",
-          "routerLink": "/reports/record-charges"
-        },
-        {
-          "text": "Cobro Locales",
-          "icon": "fiber_manual_record",
-          "routerLink": "/reports/shop-charges"
-        }
-      ]
-    }
-  ];
+  menuList: any[] = [];
 
-  constructor(private router: Router) {
+  constructor(
+    private _svcMenu: MenuService,
+    private router: Router,
+    private cd: ChangeDetectorRef) {
 
     this.event$
       = this.router.events.subscribe(evt => {
@@ -102,8 +27,12 @@ export class MenuComponent implements OnDestroy {
       });
   }
 
+  ngOnInit() {
+    this.menuList = this._svcMenu.getAllMenus ?? []; 
+  }
+
   isContain(menu: any) {
-    return menu?.children.filter((e: any) => e.routerLink === this.currentRoute).length > 0;
+    return menu?.children.filter((e: any) => e.url === this.currentRoute).length > 0;
   }
 
   ngOnDestroy(): void {
